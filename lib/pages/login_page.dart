@@ -5,6 +5,10 @@ class LoginPage extends StatelessWidget {
   static const String routeName = '/loginpage';
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: Text('Login Page'),
+      ),
+    );
   }
 }

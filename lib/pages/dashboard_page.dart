@@ -5,6 +5,10 @@ class DashboardPage extends StatelessWidget {
   static const String routeName = '/dashboardpage';
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      body: Center(
+        child: Text('Dashboard page'),
+      ),
+    );
   }
 }
