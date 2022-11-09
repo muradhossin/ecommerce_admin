@@ -99,9 +99,17 @@ class _LoginPageState extends State<LoginPage> {
       try{
         final status = await AuthService.loginAdmin(email, password);
         EasyLoading.dismiss();
-        if(mounted){
-          Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+        if(status){
+          if(mounted){
+            Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+          }
+        } else{
+          await AuthService.logout();
+          setState(() {
+            _errMsg = 'This email account is not marked as Admin. Please use a valid email address';
+          });
         }
+
       } on FirebaseAuthException catch(error){
         EasyLoading.dismiss();
         setState(() {
