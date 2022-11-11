@@ -11,9 +11,11 @@ import 'package:ecommerce_admin/pages/report_page.dart';
 import 'package:ecommerce_admin/pages/settings_page.dart';
 import 'package:ecommerce_admin/pages/user_list_page.dart';
 import 'package:ecommerce_admin/pages/view_product_page.dart';
+import 'package:ecommerce_admin/providers/product_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
@@ -22,7 +24,12 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+      ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
