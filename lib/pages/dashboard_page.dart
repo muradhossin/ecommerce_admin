@@ -2,7 +2,9 @@ import 'package:ecommerce_admin/auth/auth_service.dart';
 import 'package:ecommerce_admin/customwidgets/dashboard_item_view.dart';
 import 'package:ecommerce_admin/models/dashboard_model.dart';
 import 'package:ecommerce_admin/pages/launcher_page.dart';
+import 'package:ecommerce_admin/providers/product_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -10,6 +12,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<ProductProvider>(context,listen: false).getAllCategories();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),

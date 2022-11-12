@@ -15,19 +15,30 @@ class CategoryPage extends StatelessWidget {
         title: const Text('Categories'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           showSingleTextFieldInputDialog(
-            context: context,
-            title: "Category",
-            positiveButton: "ADD",
-            onSubmit: (value){
-              Provider.of<ProductProvider>(context, listen: false).addCategory(value);
-            }
-          );
+              context: context,
+              title: "Category",
+              positiveButton: "ADD",
+              onSubmit: (value) {
+                Provider.of<ProductProvider>(context, listen: false)
+                    .addCategory(value);
+              });
         },
         child: const Icon(Icons.add),
       ),
-
+      body: Consumer<ProductProvider>(
+        builder: (context, provider, child) => ListView.builder(
+          itemCount: provider.categoryList.length,
+          itemBuilder: (context, index){
+            final catModel = provider.categoryList[index];
+            return ListTile(
+              title: Text(catModel.categoryName),
+              trailing: Text('Total: ${catModel.productCount}'),
+            );
+          },
+        ),
+      ),
     );
   }
 }

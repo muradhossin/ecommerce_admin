@@ -14,4 +14,14 @@ class ProductProvider extends ChangeNotifier {
     );
     return DbHelper.addCategory(categoryModel);
   }
+
+  getAllCategories(){
+    DbHelper.getAllCategories().listen((snapshot) {
+      categoryList = List.generate(snapshot.docs.length, (index) =>
+      CategoryModel.fromMap(snapshot.docs[index].data()));
+      categoryList.sort((model1, model2) =>
+          model1.categoryName.compareTo(model2.categoryName));
+      notifyListeners();
+    });
+  }
 }
