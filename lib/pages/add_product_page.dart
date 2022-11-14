@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_admin/models/category_model.dart';
 import 'package:ecommerce_admin/providers/product_provider.dart';
 import 'package:ecommerce_admin/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddProductPage extends StatefulWidget {
@@ -26,18 +30,57 @@ class _AddProductPageState extends State<AddProductPage> {
   String? thumbnail;
   CategoryModel? categoryModel;
   DateTime? purchaseDate;
+  ImageSource _imageSource = ImageSource.gallery;
+  late StreamSubscription<ConnectivityResult> subscription;
+  bool _isConnected = true;
+
+  @override
+  void initState() {
+    isConnectedToInternet().then((value) {
+      setState(() {
+        _isConnected = value;
+      });
+    });
+    subscription = Connectivity().onConnectivityChanged.listen((result) {
+      if (result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile) {
+        setState(() {
+          _isConnected = true;
+        });
+      } else {
+        setState(() {
+          _isConnected = false;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('New Product'),
+        actions: [
+          IconButton(
+            onPressed: _isConnected ? _saveProduct : null,
+            icon: const Icon(Icons.save),
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            if (!_isConnected)
+              const ListTile(
+                tileColor: Colors.black,
+                title: Text(
+                  'No internet connection',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             Consumer<ProductProvider>(
               builder: (context, provider, child) =>
                   DropdownButtonFormField<CategoryModel>(
@@ -213,15 +256,17 @@ class _AddProductPageState extends State<AddProductPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         TextButton.icon(
-                          onPressed: (){
-                            
+                          onPressed: () {
+                            _imageSource = ImageSource.camera;
+                            _getImage();
                           },
                           icon: const Icon(Icons.camera),
                           label: const Text('Open Camera'),
                         ),
                         TextButton.icon(
-                          onPressed: (){
-                            
+                          onPressed: () {
+                            _imageSource = ImageSource.gallery;
+                            _getImage();
                           },
                           icon: const Icon(Icons.photo_album),
                           label: const Text('Open Gallery'),
@@ -247,6 +292,7 @@ class _AddProductPageState extends State<AddProductPage> {
     _discountController.dispose();
     _salePriceController.dispose();
     _quantityController.dispose();
+    subscription.cancel();
     super.dispose();
   }
 
@@ -261,6 +307,30 @@ class _AddProductPageState extends State<AddProductPage> {
       setState(() {
         purchaseDate = date;
       });
+    }
+  }
+
+  void _getImage() async {
+    final pickedImage =
+        await ImagePicker().pickImage(source: _imageSource, imageQuality: 70);
+    if (pickedImage != null) {
+      setState(() {
+        thumbnail = pickedImage.path;
+      });
+    }
+  }
+
+  void _saveProduct() async {
+    if (thumbnail == null) {
+      showMsg(context, "Please select a product image");
+      return;
+    }
+    if (purchaseDate == null) {
+      showMsg(context, "Please select a purchases date");
+      return;
+    }
+    if (_formKey.currentState!.validate()) {
+      EasyLoading.show(status: 'Please wait');
     }
   }
 }
