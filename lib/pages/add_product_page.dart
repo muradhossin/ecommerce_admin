@@ -37,7 +37,7 @@ class _AddProductPageState extends State<AddProductPage> {
   ImageSource _imageSource = ImageSource.gallery;
   late StreamSubscription<ConnectivityResult> subscription;
   bool _isConnected = true;
-
+  late ProductProvider _productProvider;
   @override
   void initState() {
     isConnectedToInternet().then((value) {
@@ -58,6 +58,11 @@ class _AddProductPageState extends State<AddProductPage> {
       }
     });
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    _productProvider = Provider.of<ProductProvider>(context, listen: false);
+    super.didChangeDependencies();
   }
 
   @override
@@ -335,30 +340,39 @@ class _AddProductPageState extends State<AddProductPage> {
     }
     if (_formKey.currentState!.validate()) {
       EasyLoading.show(status: 'Please wait');
-      final productModel = ProductModel(
-        productName: _nameController.text,
-        shortDescription: _shortDescriptionController.text.isEmpty
-            ? null
-            : _shortDescriptionController.text,
-        longDescription: _longDescriptionController.text.isEmpty
-            ? null
-            : _longDescriptionController.text,
-        category: categoryModel!,
-        salePrice: num.parse(_salePriceController.text),
-        stock: num.parse(_quantityController.text),
-        productDiscount: num.parse(_discountController.text),
-        thumbnailImageUrl: '',
-      );
-      final purchaseModel = PurchaseModel(
-        purchaseQuantity: num.parse(_quantityController.text),
-        purchasePrice: num.parse(_purchasePriceController.text),
-        dateModel: DateModel(
-          timestamp: Timestamp.fromDate(DateTime.now()),
-          day: DateTime.now().day,
-          month: DateTime.now().month,
-          year: DateTime.now().year,
-        ),
-      );
+
+      try{
+        final imageModel = await _productProvider.uploadImage(thumbnail!);
+
+        final productModel = ProductModel(
+          productName: _nameController.text,
+          shortDescription: _shortDescriptionController.text.isEmpty
+              ? null
+              : _shortDescriptionController.text,
+          longDescription: _longDescriptionController.text.isEmpty
+              ? null
+              : _longDescriptionController.text,
+          category: categoryModel!,
+          salePrice: num.parse(_salePriceController.text),
+          stock: num.parse(_quantityController.text),
+          productDiscount: num.parse(_discountController.text),
+          thumbnailImageModel: imageModel,
+        );
+        final purchaseModel = PurchaseModel(
+          purchaseQuantity: num.parse(_quantityController.text),
+          purchasePrice: num.parse(_purchasePriceController.text),
+          dateModel: DateModel(
+            timestamp: Timestamp.fromDate(DateTime.now()),
+            day: DateTime.now().day,
+            month: DateTime.now().month,
+            year: DateTime.now().year,
+          ),
+        );
+      }catch(error){
+        showMsg(context, "Could not save. Please check your connection");
+        throw error;
+      }
+
     }
   }
 }

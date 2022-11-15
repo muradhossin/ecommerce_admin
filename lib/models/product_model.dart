@@ -1,4 +1,5 @@
 import 'package:ecommerce_admin/models/category_model.dart';
+import 'package:ecommerce_admin/models/image_model.dart';
 
 const String collectionProduct = 'Products';
 const String productFieldId = 'productId';
@@ -10,7 +11,7 @@ const String productFieldSalePrice = 'productSalePrice';
 const String productFieldStock = 'productStock';
 const String productFieldDiscount = 'productDiscount';
 const String productFieldThumbnailImageUrl = 'productThumbnailImageUrl';
-const String productFieldAdditonalImages = 'productAdditonalImages';
+const String productFieldAdditionalImages = 'productAdditionalImages';
 const String productFieldAvailable = 'productAvailable';
 const String productFieldFeatured = 'productFeatured';
 const String productFieldAvgRating = 'avgRating';
@@ -24,8 +25,8 @@ class ProductModel {
   num salePrice;
   num stock;
   num productDiscount;
-  String thumbnailImageUrl;
-  List<String>? additonalImages;
+  ImageModel thumbnailImageModel;
+  List<ImageModel>? additionalImageModels;
   bool available;
   bool featured;
   num avgRating;
@@ -40,8 +41,8 @@ class ProductModel {
     required this.stock,
     this.avgRating = 0.0,
     required this.productDiscount,
-    required this.thumbnailImageUrl,
-    this.additonalImages,
+    required this.thumbnailImageModel,
+    this.additionalImageModels,
     this.available = true,
     this.featured = false,
   });
@@ -57,8 +58,9 @@ class ProductModel {
       productFieldStock: stock,
       productFieldAvgRating: avgRating,
       productFieldDiscount: productDiscount,
-      productFieldThumbnailImageUrl: thumbnailImageUrl,
-      productFieldAdditonalImages: additonalImages,
+      productFieldThumbnailImageUrl: thumbnailImageModel.toMap(),
+      productFieldAdditionalImages: additionalImageModels == null? null : List.generate(additionalImageModels!.length, (index) =>
+      additionalImageModels![index].toMap()),
       productFieldAvailable: available,
       productFieldFeatured: featured,
     };
@@ -74,9 +76,10 @@ class ProductModel {
     stock: map[productFieldStock],
     avgRating: map[productFieldAvgRating],
     productDiscount: map[productFieldDiscount],
-    thumbnailImageUrl: map[productFieldThumbnailImageUrl],
-    additonalImages: map[productFieldAdditonalImages] != null ?
-    map[productFieldAdditonalImages] as List<String> : null,
+    thumbnailImageModel: map[productFieldThumbnailImageUrl],
+    additionalImageModels: map[productFieldAdditionalImages] == null ? null :
+    List.generate((map[productFieldAdditionalImages] as List).length, (index) =>
+        ImageModel.fromMap((map[productFieldAdditionalImages] as List)[index])),
     available: map[productFieldAvailable],
     featured: map[productFieldFeatured],
   );

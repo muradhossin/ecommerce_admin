@@ -39,7 +39,7 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
-  firebase_storage:
+  firebase_storage: ^11.0.5
   provider:
   intl:
   image_picker:
