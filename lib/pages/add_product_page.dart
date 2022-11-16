@@ -119,11 +119,27 @@ class _AddProductPageState extends State<AddProductPage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4.0),
               child: TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                  filled: true,
+                  labelText: "Enter Product Name",
+                ),
+                validator: (value) {
+                  if(value == null || value.isEmpty){
+                    return 'This field must not be empty';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: TextFormField(
                 maxLines: 2,
                 controller: _shortDescriptionController,
                 decoration: const InputDecoration(
                   filled: true,
-                  labelText: "Enter Short Description(optional",
+                  labelText: "Enter Short Description(optional)",
                 ),
                 validator: (value) {
                   return null;
@@ -362,17 +378,41 @@ class _AddProductPageState extends State<AddProductPage> {
           purchaseQuantity: num.parse(_quantityController.text),
           purchasePrice: num.parse(_purchasePriceController.text),
           dateModel: DateModel(
-            timestamp: Timestamp.fromDate(DateTime.now()),
-            day: DateTime.now().day,
-            month: DateTime.now().month,
-            year: DateTime.now().year,
+            timestamp: Timestamp.fromDate(purchaseDate!),
+            day: purchaseDate!.day,
+            month: purchaseDate!.month,
+            year: purchaseDate!.year,
           ),
         );
+
+        await _productProvider.addNewProduct(productModel, purchaseModel);
+        EasyLoading.dismiss();
+        if(mounted){
+          showMsg(context, "Saved");
+        }
+        _resetFields();
+
       }catch(error){
+        EasyLoading.dismiss();
         showMsg(context, "Could not save. Please check your connection");
         throw error;
       }
 
     }
+  }
+
+  void _resetFields() {
+    setState(() {
+      _nameController.clear();
+      _shortDescriptionController.clear();
+      _longDescriptionController.clear();
+      _quantityController.clear();
+      _salePriceController.clear();
+      _purchasePriceController.clear();
+      _discountController.clear();
+      categoryModel = null;
+      purchaseDate = null;
+      thumbnail = null;
+    });
   }
 }

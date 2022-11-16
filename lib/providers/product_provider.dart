@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ecommerce_admin/db/db_helper.dart';
+import 'package:ecommerce_admin/models/purchase_model.dart';
 import 'package:ecommerce_admin/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -42,5 +43,9 @@ class ProductProvider extends ChangeNotifier {
       title: imageName,
       imageDownloadUrl: downloadUrl,
     );
+  }
+
+  Future<void>addNewProduct(ProductModel productModel, PurchaseModel purchaseModel) {
+    return DbHelper.addNewProduct(productModel, purchaseModel);
   }
 }

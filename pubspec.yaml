@@ -38,7 +38,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core:
   firebase_auth:
-  cloud_firestore:
   firebase_storage: ^11.0.5
   provider:
   intl:
@@ -46,6 +45,7 @@ dependencies:
   cached_network_image:
   flutter_easyloading:
   connectivity_plus:
+  cloud_firestore: ^4.0.5
 
 
 dev_dependencies:
