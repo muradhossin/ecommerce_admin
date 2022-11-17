@@ -31,6 +31,29 @@ class ProductProvider extends ChangeNotifier {
     });
   }
 
+  List<CategoryModel> getCategoriesForFiltering(){
+    return <CategoryModel>[
+      CategoryModel(categoryName: "All"),
+      ...categoryList,
+    ];
+  }
+
+  getAllProducts() {
+    DbHelper.getAllProducts().listen((snapshot) {
+      productList = List.generate(snapshot.docs.length,
+              (index) => ProductModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+  getAllProductsByCategory(String categoryName) {
+    DbHelper.getAllProductsByCategory(categoryName).listen((snapshot) {
+      productList = List.generate(snapshot.docs.length,
+              (index) => ProductModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
   Future<ImageModel> uploadImage(String path) async {
     final imageName = 'pro_${DateTime.now().millisecondsSinceEpoch}';
     final imageRef = FirebaseStorage.instance

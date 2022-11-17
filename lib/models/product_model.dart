@@ -76,7 +76,7 @@ class ProductModel {
     stock: map[productFieldStock],
     avgRating: map[productFieldAvgRating],
     productDiscount: map[productFieldDiscount],
-    thumbnailImageModel: map[productFieldThumbnailImageUrl],
+    thumbnailImageModel: ImageModel.fromMap(map[productFieldThumbnailImageUrl]),
     additionalImageModels: map[productFieldAdditionalImages] == null ? null :
     List.generate((map[productFieldAdditionalImages] as List).length, (index) =>
         ImageModel.fromMap((map[productFieldAdditionalImages] as List)[index])),

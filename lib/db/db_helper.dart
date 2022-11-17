@@ -35,5 +35,13 @@ class DbHelper {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
       _db.collection(collectionCategory).snapshots();
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
+      _db.collection(collectionProduct).snapshots();
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProductsByCategory(String categoryName) =>
+      _db.collection(collectionProduct)
+          .where('$productFieldCategory.$categoryFieldName', isEqualTo: categoryName)
+          .snapshots();
+
 
 }
