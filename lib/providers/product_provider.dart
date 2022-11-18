@@ -71,4 +71,9 @@ class ProductProvider extends ChangeNotifier {
   Future<void>addNewProduct(ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel, purchaseModel);
   }
+
+  Future<List<PurchaseModel>> getPurchaseByProductId(String productId) async{
+    final snapshot = await DbHelper.getAllPurchaseByProductId(productId);
+    return List.generate(snapshot.docs.length, (index) => PurchaseModel.fromMap(snapshot.docs[index].data()));
+  }
 }

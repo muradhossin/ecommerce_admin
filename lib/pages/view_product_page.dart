@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_admin/pages/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,6 +63,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
                 itemBuilder: (context, index){
                   final product = provider.productList[index];
                   return ListTile(
+                    onTap: () => Navigator.pushNamed(context, ProductDetailsPage.routeName, arguments: product),
                     leading: CachedNetworkImage(
                       width: 50,
                       imageUrl: product.thumbnailImageModel.imageDownloadUrl,
