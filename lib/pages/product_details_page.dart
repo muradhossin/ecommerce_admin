@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
+import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
 import 'package:ecommerce_admin/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,7 @@ class ProductDetailsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(context, ProductRepurchasePage.routeName, arguments: productModel),
                 child: const Text('Re-Purchase'),
               ),
               OutlinedButton(

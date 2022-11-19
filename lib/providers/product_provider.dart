@@ -76,4 +76,8 @@ class ProductProvider extends ChangeNotifier {
     final snapshot = await DbHelper.getAllPurchaseByProductId(productId);
     return List.generate(snapshot.docs.length, (index) => PurchaseModel.fromMap(snapshot.docs[index].data()));
   }
+
+  Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
+    return DbHelper.repurchase(purchaseModel, productModel);
+  }
 }

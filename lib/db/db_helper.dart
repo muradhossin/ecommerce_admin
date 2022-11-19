@@ -48,5 +48,20 @@ class DbHelper {
           .where(purchaseFieldProductId, isEqualTo: productId)
           .get();
 
+  static Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) async{
+    final wb = _db.batch();
+    final doc = _db.collection(collectionPurchase).doc();
+    purchaseModel.purchaseId = doc.id;
+    wb.set(doc, purchaseModel.toMap());
+    final productDoc = _db.collection(collectionProduct).doc(productModel.productId);
+    wb.update(productDoc, {productFieldStock: (productModel.stock + purchaseModel.purchaseQuantity)});
+    final snapshot = await _db.collection(collectionCategory).doc(productModel.category.categoryId).get();
+    final previousCount = snapshot.data()?[categoryFieldProductCount] ?? 0;
+    final catDoc = _db.collection(collectionCategory).doc(productModel.category.categoryId);
+    wb.update(catDoc, {categoryFieldProductCount: (purchaseModel.purchaseQuantity + previousCount)});
+    return wb.commit();
+  }
+
+
 
 }
