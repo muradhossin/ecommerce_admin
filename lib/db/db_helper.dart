@@ -38,6 +38,9 @@ class DbHelper {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
       _db.collection(collectionProduct).snapshots();
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPurchases() =>
+      _db.collection(collectionPurchase).snapshots();
+
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProductsByCategory(String categoryName) =>
       _db.collection(collectionProduct)
           .where('$productFieldCategory.$categoryFieldName', isEqualTo: categoryName)
@@ -61,6 +64,8 @@ class DbHelper {
     wb.update(catDoc, {categoryFieldProductCount: (purchaseModel.purchaseQuantity + previousCount)});
     return wb.commit();
   }
+
+
 
 
 

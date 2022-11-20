@@ -7,16 +7,26 @@ import 'package:provider/provider.dart';
 
 import '../providers/product_provider.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends StatefulWidget {
   ProductDetailsPage({Key? key}) : super(key: key);
   static const String routeName = '/productdetailspage';
+
+  @override
+  State<ProductDetailsPage> createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late ProductModel productModel;
   late ProductProvider productProvider;
+  @override
+  void didChangeDependencies() {
+    productProvider = Provider.of<ProductProvider>(context, listen: false);
+    productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    productProvider = Provider.of<ProductProvider>(context, listen: false);
-    productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
     return Scaffold(
       appBar: AppBar(
         title: Text(productModel.productName),
@@ -42,7 +52,7 @@ class ProductDetailsPage extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  _showPurchaseHistory(context, productModel);
+                  _showPurchaseHistory();
                 },
                 child: const Text('Purchase history'),
               ),
@@ -53,33 +63,23 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  void _showPurchaseHistory(BuildContext context, ProductModel productModel) {
+  void _showPurchaseHistory() {
     showModalBottomSheet(
-
       context: context,
-      builder: (context) => FutureBuilder(
-        future: productProvider.getPurchaseByProductId(productModel.productId!),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final purchaseList = snapshot.data;
-            return ListView.builder(
-              itemCount: purchaseList!.length,
-              itemBuilder: (context, index){
-                final purchaseModel = purchaseList[index];
-                return ListTile(
-                  title: Text(getFormattedDate(purchaseModel.dateModel.timestamp.toDate())),
-                  subtitle: Text('BDT: ${purchaseModel.purchasePrice}'),
-                  trailing: Text('Quantity: ${purchaseModel.purchaseQuantity}'),
-                );
-              },
+      builder: (context) {
+        final purchaseList = productProvider.getPurchaseByProductId(productModel.productId!);
+        return ListView.builder(
+          itemCount: purchaseList.length,
+          itemBuilder: (context, index){
+            final purchaseModel = purchaseList[index];
+            return ListTile(
+              title: Text(getFormattedDate(purchaseModel.dateModel.timestamp.toDate())),
+              subtitle: Text('BDT: ${purchaseModel.purchasePrice}'),
+              trailing: Text('Quantity: ${purchaseModel.purchaseQuantity}'),
             );
-          }
-          if(snapshot.hasError){
-            return const Center(child: Text('Failed to fetch data'),);
-          }
-          return const Center(child: CircularProgressIndicator(),);
-        },
-      ),
+          },
+        );
+      }
     );
   }
 }

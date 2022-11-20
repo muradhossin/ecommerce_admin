@@ -13,6 +13,7 @@ import '../models/product_model.dart';
 class ProductProvider extends ChangeNotifier {
   List<CategoryModel> categoryList = [];
   List<ProductModel> productList = [];
+  List<PurchaseModel> purchaseList = [];
 
   Future<void> addCategory(String category) {
     final categoryModel = CategoryModel(
@@ -46,6 +47,14 @@ class ProductProvider extends ChangeNotifier {
     });
   }
 
+  getAllPurchases() {
+    DbHelper.getAllPurchases().listen((snapshot) {
+      purchaseList = List.generate(snapshot.docs.length,
+              (index) => PurchaseModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
   getAllProductsByCategory(String categoryName) {
     DbHelper.getAllProductsByCategory(categoryName).listen((snapshot) {
       productList = List.generate(snapshot.docs.length,
@@ -72,9 +81,8 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.addNewProduct(productModel, purchaseModel);
   }
 
-  Future<List<PurchaseModel>> getPurchaseByProductId(String productId) async{
-    final snapshot = await DbHelper.getAllPurchaseByProductId(productId);
-    return List.generate(snapshot.docs.length, (index) => PurchaseModel.fromMap(snapshot.docs[index].data()));
+  List<PurchaseModel> getPurchaseByProductId(String productId) {
+    return purchaseList.where((element) => element.productId == productId).toList();
   }
 
   Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
