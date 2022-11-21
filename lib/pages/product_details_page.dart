@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
 import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
+import 'package:ecommerce_admin/utils/constants.dart';
 import 'package:ecommerce_admin/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,7 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late ProductModel productModel;
   late ProductProvider productProvider;
+
   @override
   void didChangeDependencies() {
     productProvider = Provider.of<ProductProvider>(context, listen: false);
@@ -43,11 +45,33 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ),
             errorWidget: (context, ulr, error) => const Icon(Icons.error),
           ),
+          SizedBox(
+            height: 75,
+            child: Card(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: productModel.additionalImageModels == null ?
+                    const Center(child: Text('Add Extra Images'),) :
+                    ListView(),
+                  ),
+                  IconButton(
+                    onPressed: (){
+
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               OutlinedButton(
-                onPressed: () => Navigator.pushNamed(context, ProductRepurchasePage.routeName, arguments: productModel),
+                onPressed: () => Navigator.pushNamed(
+                    context, ProductRepurchasePage.routeName,
+                    arguments: productModel),
                 child: const Text('Re-Purchase'),
               ),
               OutlinedButton(
@@ -57,7 +81,39 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 child: const Text('Purchase history'),
               ),
             ],
-          )
+          ),
+          ListTile(
+            title: Text(productModel.productName),
+            subtitle: Text(productModel.category.categoryName),
+          ),
+          ListTile(
+            title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
+            subtitle: Text("Discount: ${productModel.productDiscount}%"),
+            trailing: Text(
+                "$currencySymbol${productProvider.priceAfterDiscount(productModel.salePrice, productModel.productDiscount)}"),
+          ),
+          SwitchListTile(
+            value: productModel.available,
+            onChanged: (value) {
+              setState(() {
+                productModel.available = !productModel.available;
+              });
+              productProvider.updateProductField(productModel.productId!,
+                  productFieldAvailable, productModel.available);
+            },
+            title: const Text('Available'),
+          ),
+          SwitchListTile(
+            value: productModel.featured,
+            onChanged: (value) {
+              setState(() {
+                productModel.featured = !productModel.featured;
+              });
+              productProvider.updateProductField(productModel.productId!,
+                  productFieldFeatured, productModel.featured);
+            },
+            title: const Text('Featured'),
+          ),
         ],
       ),
     );
@@ -65,21 +121,22 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   void _showPurchaseHistory() {
     showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        final purchaseList = productProvider.getPurchaseByProductId(productModel.productId!);
-        return ListView.builder(
-          itemCount: purchaseList.length,
-          itemBuilder: (context, index){
-            final purchaseModel = purchaseList[index];
-            return ListTile(
-              title: Text(getFormattedDate(purchaseModel.dateModel.timestamp.toDate())),
-              subtitle: Text('BDT: ${purchaseModel.purchasePrice}'),
-              trailing: Text('Quantity: ${purchaseModel.purchaseQuantity}'),
-            );
-          },
-        );
-      }
-    );
+        context: context,
+        builder: (context) {
+          final purchaseList =
+              productProvider.getPurchaseByProductId(productModel.productId!);
+          return ListView.builder(
+            itemCount: purchaseList.length,
+            itemBuilder: (context, index) {
+              final purchaseModel = purchaseList[index];
+              return ListTile(
+                title: Text(getFormattedDate(
+                    purchaseModel.dateModel.timestamp.toDate())),
+                subtitle: Text('BDT: ${purchaseModel.purchasePrice}'),
+                trailing: Text('Quantity: ${purchaseModel.purchaseQuantity}'),
+              );
+            },
+          );
+        });
   }
 }
