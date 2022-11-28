@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_admin/models/image_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
 import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
 import 'package:ecommerce_admin/utils/constants.dart';
 import 'package:ecommerce_admin/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
+import '../customwidgets/photo_frame_view.dart';
 import '../providers/product_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -49,17 +53,43 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             height: 75,
             child: Card(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: productModel.additionalImageModels == null ?
-                    const Center(child: Text('Add Extra Images'),) :
-                    ListView(),
-                  ),
-                  IconButton(
-                    onPressed: (){
+                  PhotoFrameView(
+                    onImagePressed: (){
 
                     },
-                    icon: const Icon(Icons.add),
+                    url: productModel.additionalImageModels[0],
+                    child: IconButton(
+                      onPressed: (){
+                        _addImage(0);
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  ),
+                  PhotoFrameView(
+                    onImagePressed: (){
+
+                    },
+                    url: productModel.additionalImageModels[1],
+                    child: IconButton(
+                      onPressed: (){
+                        _addImage(1);
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  ),
+                  PhotoFrameView(
+                    onImagePressed: (){
+
+                    },
+                    url: productModel.additionalImageModels[2],
+                    child: IconButton(
+                      onPressed: (){
+                        _addImage(2);
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
                   ),
                 ],
               ),
@@ -138,5 +168,31 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
           );
         });
+  }
+
+  void _addImage(int index) async {
+    final selectedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (selectedFile != null) {
+      EasyLoading.show(status: 'Please wait');
+      final imageModel = await productProvider.uploadImage(selectedFile.path);
+      final previousImageList = productModel.additionalImageModels;
+      previousImageList[index] = imageModel.imageDownloadUrl;
+      productProvider
+          .updateProductField(productModel.productId!,
+              productFieldAdditionalImages, previousImageList)
+          .then(
+            (value) {
+              setState(() {
+                productModel.additionalImageModels[index] = imageModel.imageDownloadUrl;
+              });
+              showMsg(context, 'Uploaded');
+              EasyLoading.dismiss();
+            },
+          ).catchError((error) {
+            showMsg(context, 'Failed to uploaded');
+            EasyLoading.dismiss();
+      });
+    }
   }
 }
