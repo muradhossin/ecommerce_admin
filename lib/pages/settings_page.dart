@@ -122,10 +122,11 @@ class _SettingsPageState extends State<SettingsPage> {
     if(_formKey.currentState!.validate()){
       EasyLoading.show(status: 'Please wait');
       final model = OrderConstantModel(
-        discount: num.parse(_deliveryChargeController.text),
+        discount: num.parse(_discountController.text),
         vat: num.parse(_vatController.text),
         deliveryCharge: num.parse(_deliveryChargeController.text),
       );
+
       orderProvider.updateOrderConstants(model).then((value) {
         EasyLoading.dismiss();
         showMsg(context, "Updated Successfully");

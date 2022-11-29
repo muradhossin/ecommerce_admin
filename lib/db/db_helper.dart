@@ -13,11 +13,14 @@ class DbHelper {
     return snapshot.exists;
   }
 
+
   static Future<void> addCategory(CategoryModel categoryModel){
     final catDoc = _db.collection(collectionCategory).doc();
     categoryModel.categoryId = catDoc.id;
     return catDoc.set(categoryModel.toMap());
   }
+
+
   static Future<void> addNewProduct(ProductModel productModel, PurchaseModel purchaseModel) {
     final wb = _db.batch();
     final productDoc = _db.collection(collectionProduct).doc();
