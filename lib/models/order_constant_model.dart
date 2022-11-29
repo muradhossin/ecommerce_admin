@@ -1,8 +1,8 @@
-const String collectionOrderConstant='OrderConstant';
-
-const String orderConFieldDiscount='discount';
-const String orderConFieldVat='vat';
-const String orderConFieldDeliCharge='deliveryCharge';
+const String collectionUtils = 'Utils';
+const String documentOrderConstants ='OrderConstants';
+const String orderConFieldDiscount ='discount';
+const String orderConFieldVat ='vat';
+const String orderConFieldDeliCharge ='deliveryCharge';
 
 class OrderConstantModel{
   num discount;
