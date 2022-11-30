@@ -23,9 +23,11 @@ class ProductDetailsPage extends StatefulWidget {
 class _ProductDetailsPageState extends State<ProductDetailsPage> {
   late ProductModel productModel;
   late ProductProvider productProvider;
+  late Size size;
 
   @override
   void didChangeDependencies() {
+    size = MediaQuery.of(context).size;
     productProvider = Provider.of<ProductProvider>(context, listen: false);
     productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
     super.didChangeDependencies();
@@ -56,36 +58,36 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   PhotoFrameView(
-                    onImagePressed: (){
-
+                    onImagePressed: () {
+                      _showImageInDialog(0);
                     },
                     url: productModel.additionalImageModels[0],
                     child: IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         _addImage(0);
                       },
                       icon: const Icon(Icons.add),
                     ),
                   ),
                   PhotoFrameView(
-                    onImagePressed: (){
-
+                    onImagePressed: () {
+                      _showImageInDialog(1);
                     },
                     url: productModel.additionalImageModels[1],
                     child: IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         _addImage(1);
                       },
                       icon: const Icon(Icons.add),
                     ),
                   ),
                   PhotoFrameView(
-                    onImagePressed: (){
-
+                    onImagePressed: () {
+                      _showImageInDialog(2);
                     },
                     url: productModel.additionalImageModels[2],
                     child: IconButton(
-                      onPressed: (){
+                      onPressed: () {
                         _addImage(2);
                       },
                       icon: const Icon(Icons.add),
@@ -182,17 +184,65 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           .updateProductField(productModel.productId!,
               productFieldAdditionalImages, previousImageList)
           .then(
-            (value) {
-              setState(() {
-                productModel.additionalImageModels[index] = imageModel.imageDownloadUrl;
-              });
-              showMsg(context, 'Uploaded');
-              EasyLoading.dismiss();
-            },
-          ).catchError((error) {
-            showMsg(context, 'Failed to uploaded');
-            EasyLoading.dismiss();
+        (value) {
+          setState(() {
+            productModel.additionalImageModels[index] =
+                imageModel.imageDownloadUrl;
+          });
+          showMsg(context, 'Uploaded');
+          EasyLoading.dismiss();
+        },
+      ).catchError((error) {
+        showMsg(context, 'Failed to uploaded');
+        EasyLoading.dismiss();
       });
     }
+  }
+
+  void _showImageInDialog(int i) {
+    final url = productModel.additionalImageModels[i];
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              content: CachedNetworkImage(
+                width: size.height / 2,
+                height: 200,
+                fit: BoxFit.cover,
+                imageUrl: url,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('CHANGE'),
+                ),
+                TextButton(
+                  onPressed: () async{
+                    Navigator.pop(context);
+                    EasyLoading.show(status: "Deleting image");
+                    setState(() {
+                      productModel.additionalImageModels[i] = '';
+                    });
+                    try{
+                      await productProvider.deleteImage(url);
+                      await productProvider.updateProductField(
+                        productModel.productId!,
+                        productFieldAdditionalImages,
+                        productModel.additionalImageModels,
+                      );
+                      EasyLoading.dismiss();
+                      if(mounted) showMsg(context, 'Deleted');
+                    }catch(error){
+                      EasyLoading.dismiss();
+                      showMsg(context, 'Failed to Delete');
+                    }
+                  },
+                  child: const Text('DELETE'),
+                ),
+              ],
+            ));
   }
 }
