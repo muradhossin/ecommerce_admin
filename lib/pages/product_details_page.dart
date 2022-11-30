@@ -216,7 +216,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () async{
+                    Navigator.pop(context);
+                    try{
+                      _addImage(i);
+                      await productProvider.deleteImage(url);
+                    }catch(error){
+                      showMsg(context, 'Failed to Update');
+                    }
+                  },
                   child: const Text('CHANGE'),
                 ),
                 TextButton(
