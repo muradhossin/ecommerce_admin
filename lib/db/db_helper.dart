@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/models/category_model.dart';
 import 'package:ecommerce_admin/models/order_constant_model.dart';
+import 'package:ecommerce_admin/models/order_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
 import 'package:ecommerce_admin/models/purchase_model.dart';
 
@@ -44,6 +45,9 @@ class DbHelper {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
       _db.collection(collectionProduct).snapshots();
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllOrders() =>
+      _db.collection(collectionOrder).snapshots();
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPurchases() =>
       _db.collection(collectionPurchase).snapshots();

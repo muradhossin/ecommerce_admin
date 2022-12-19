@@ -4,6 +4,7 @@ import 'package:ecommerce_admin/pages/category_page.dart';
 import 'package:ecommerce_admin/pages/dashboard_page.dart';
 import 'package:ecommerce_admin/pages/launcher_page.dart';
 import 'package:ecommerce_admin/pages/login_page.dart';
+import 'package:ecommerce_admin/pages/order_details_page.dart';
 import 'package:ecommerce_admin/pages/order_page.dart';
 import 'package:ecommerce_admin/pages/product_details_page.dart';
 import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         SettingsPage.routeName: (_) => const SettingsPage(),
         ProductRepurchasePage.routeName: (_) => const ProductRepurchasePage(),
         UserListPage.routeName: (_) => const UserListPage(),
+        OrderDetailsPage.routeName: (_) => const OrderDetailsPage(),
 
       },
     );
