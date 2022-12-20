@@ -9,20 +9,19 @@ class DbHelper {
   static const String collectionAdmin = 'Admins';
   static final _db = FirebaseFirestore.instance;
 
-  static Future<bool> isAdmin(String uid) async{
+  static Future<bool> isAdmin(String uid) async {
     final snapshot = await _db.collection(collectionAdmin).doc(uid).get();
     return snapshot.exists;
   }
 
-
-  static Future<void> addCategory(CategoryModel categoryModel){
+  static Future<void> addCategory(CategoryModel categoryModel) {
     final catDoc = _db.collection(collectionCategory).doc();
     categoryModel.categoryId = catDoc.id;
     return catDoc.set(categoryModel.toMap());
   }
 
-
-  static Future<void> addNewProduct(ProductModel productModel, PurchaseModel purchaseModel) {
+  static Future<void> addNewProduct(
+      ProductModel productModel, PurchaseModel purchaseModel) {
     final wb = _db.batch();
     final productDoc = _db.collection(collectionProduct).doc();
     final purchaseDoc = _db.collection(collectionPurchase).doc();
@@ -31,8 +30,11 @@ class DbHelper {
     purchaseModel.purchaseId = purchaseDoc.id;
     wb.set(productDoc, productModel.toMap());
     wb.set(purchaseDoc, purchaseModel.toMap());
-    final updatedCount = purchaseModel.purchaseQuantity + productModel.category.productCount;
-    final catDoc = _db.collection(collectionCategory).doc(productModel.category.categoryId);
+    final updatedCount =
+        purchaseModel.purchaseQuantity + productModel.category.productCount;
+    final catDoc = _db
+        .collection(collectionCategory)
+        .doc(productModel.category.categoryId);
     wb.update(catDoc, {categoryFieldProductCount: updatedCount});
     return wb.commit();
   }
@@ -52,41 +54,63 @@ class DbHelper {
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPurchases() =>
       _db.collection(collectionPurchase).snapshots();
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProductsByCategory(String categoryName) =>
-      _db.collection(collectionProduct)
-          .where('$productFieldCategory.$categoryFieldName', isEqualTo: categoryName)
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProductsByCategory(
+          String categoryName) =>
+      _db
+          .collection(collectionProduct)
+          .where('$productFieldCategory.$categoryFieldName',
+              isEqualTo: categoryName)
           .snapshots();
 
-  static Future<void> updateProductField(String productId, Map<String, dynamic>map){
+  static Future<void> updateProductField(
+      String productId, Map<String, dynamic> map) {
     return _db.collection(collectionProduct).doc(productId).update(map);
   }
 
-
-  static Future<QuerySnapshot<Map<String, dynamic>>> getAllPurchaseByProductId(String productId) =>
-      _db.collection(collectionPurchase)
+  static Future<QuerySnapshot<Map<String, dynamic>>> getAllPurchaseByProductId(
+          String productId) =>
+      _db
+          .collection(collectionPurchase)
           .where(purchaseFieldProductId, isEqualTo: productId)
           .get();
 
-  static Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) async{
+  static Future<void> repurchase(
+      PurchaseModel purchaseModel, ProductModel productModel) async {
     final wb = _db.batch();
     final doc = _db.collection(collectionPurchase).doc();
     purchaseModel.purchaseId = doc.id;
     wb.set(doc, purchaseModel.toMap());
-    final productDoc = _db.collection(collectionProduct).doc(productModel.productId);
-    wb.update(productDoc, {productFieldStock: (productModel.stock + purchaseModel.purchaseQuantity)});
-    final snapshot = await _db.collection(collectionCategory).doc(productModel.category.categoryId).get();
+    final productDoc =
+        _db.collection(collectionProduct).doc(productModel.productId);
+    wb.update(productDoc, {
+      productFieldStock: (productModel.stock + purchaseModel.purchaseQuantity)
+    });
+    final snapshot = await _db
+        .collection(collectionCategory)
+        .doc(productModel.category.categoryId)
+        .get();
     final previousCount = snapshot.data()?[categoryFieldProductCount] ?? 0;
-    final catDoc = _db.collection(collectionCategory).doc(productModel.category.categoryId);
-    wb.update(catDoc, {categoryFieldProductCount: (purchaseModel.purchaseQuantity + previousCount)});
+    final catDoc = _db
+        .collection(collectionCategory)
+        .doc(productModel.category.categoryId);
+    wb.update(catDoc, {
+      categoryFieldProductCount:
+          (purchaseModel.purchaseQuantity + previousCount)
+    });
     return wb.commit();
   }
 
-  static Future<void> updateOrderConstants(OrderConstantModel model){
-    return _db.collection(collectionUtils).doc(documentOrderConstants).update(model.toMAp());
+  static Future<void> updateOrderConstants(OrderConstantModel model) {
+    return _db
+        .collection(collectionUtils)
+        .doc(documentOrderConstants)
+        .update(model.toMap());
   }
 
-
-
-
-
+  static Future<void> updateOrderStatus(String orderId, String status) {
+    return _db
+        .collection(collectionOrder)
+        .doc(orderId)
+        .update({orderFieldOrderStatus : status});
+  }
 }

@@ -15,7 +15,7 @@ class OrderConstantModel{
     this.deliveryCharge=0,
   });
 
-  Map<String,dynamic>toMAp(){
+  Map<String,dynamic>toMap(){
     return <String,dynamic>{
       orderConFieldDiscount:discount,
       orderConFieldVat:vat,
