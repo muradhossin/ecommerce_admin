@@ -5,6 +5,8 @@ import 'package:ecommerce_admin/models/order_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
 import 'package:ecommerce_admin/models/purchase_model.dart';
 
+import '../models/user_model.dart';
+
 class DbHelper {
   static const String collectionAdmin = 'Admins';
   static final _db = FirebaseFirestore.instance;
@@ -62,6 +64,9 @@ class DbHelper {
               isEqualTo: categoryName)
           .snapshots();
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() =>
+      _db.collection(collectionUser).snapshots();
+
   static Future<void> updateProductField(
       String productId, Map<String, dynamic> map) {
     return _db.collection(collectionProduct).doc(productId).update(map);
@@ -112,5 +117,12 @@ class DbHelper {
         .collection(collectionOrder)
         .doc(orderId)
         .update({orderFieldOrderStatus : status});
+
+  }
+
+  static Future<bool> doesUserExist(String uid) async {
+    final snapshot = await _db.collection(collectionUser).doc(uid).get();
+    return snapshot.exists;
   }
 }
+

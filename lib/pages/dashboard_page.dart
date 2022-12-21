@@ -4,6 +4,7 @@ import 'package:ecommerce_admin/models/dashboard_model.dart';
 import 'package:ecommerce_admin/pages/launcher_page.dart';
 import 'package:ecommerce_admin/providers/order_provider.dart';
 import 'package:ecommerce_admin/providers/product_provider.dart';
+import 'package:ecommerce_admin/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class DashboardPage extends StatelessWidget {
     Provider.of<ProductProvider>(context,listen: false).getAllPurchases();
     Provider.of<OrderProvider>(context,listen: false).getOrderConstants();
     Provider.of<OrderProvider>(context,listen: false).getOrders();
+    Provider.of<UserProvider>(context, listen: false).getAllUser();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
