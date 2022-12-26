@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/models/category_model.dart';
+import 'package:ecommerce_admin/models/notification_model.dart';
 import 'package:ecommerce_admin/models/order_constant_model.dart';
 import 'package:ecommerce_admin/models/order_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
@@ -116,13 +117,21 @@ class DbHelper {
     return _db
         .collection(collectionOrder)
         .doc(orderId)
-        .update({orderFieldOrderStatus : status});
-
+        .update({orderFieldOrderStatus: status});
   }
 
   static Future<bool> doesUserExist(String uid) async {
     final snapshot = await _db.collection(collectionUser).doc(uid).get();
     return snapshot.exists;
   }
-}
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllNotifications() =>
+      _db.collection(collectionNotification).snapshots();
+
+  static Future<void> updateNotificationStatus(String id) {
+    return _db
+        .collection(collectionNotification)
+        .doc(id)
+        .update({notificationFieldStatus: true});
+  }
+}

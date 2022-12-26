@@ -4,6 +4,7 @@ import 'package:ecommerce_admin/pages/category_page.dart';
 import 'package:ecommerce_admin/pages/dashboard_page.dart';
 import 'package:ecommerce_admin/pages/launcher_page.dart';
 import 'package:ecommerce_admin/pages/login_page.dart';
+import 'package:ecommerce_admin/pages/notification_page.dart';
 import 'package:ecommerce_admin/pages/order_details_page.dart';
 import 'package:ecommerce_admin/pages/order_page.dart';
 import 'package:ecommerce_admin/pages/product_details_page.dart';
@@ -12,6 +13,7 @@ import 'package:ecommerce_admin/pages/report_page.dart';
 import 'package:ecommerce_admin/pages/settings_page.dart';
 import 'package:ecommerce_admin/pages/user_list_page.dart';
 import 'package:ecommerce_admin/pages/view_product_page.dart';
+import 'package:ecommerce_admin/providers/notification_provider.dart';
 import 'package:ecommerce_admin/providers/order_provider.dart';
 import 'package:ecommerce_admin/providers/product_provider.dart';
 import 'package:ecommerce_admin/providers/user_provider.dart';
@@ -32,6 +34,7 @@ void main() async{
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => NotificationProvider()),
       ],
     child: const MyApp(),
   ));
@@ -60,6 +63,7 @@ class MyApp extends StatelessWidget {
         ProductRepurchasePage.routeName: (_) => const ProductRepurchasePage(),
         UserListPage.routeName: (_) => const UserListPage(),
         OrderDetailsPage.routeName: (_) => const OrderDetailsPage(),
+        NotificationPage.routeName: (_) => const NotificationPage(),
 
       },
     );

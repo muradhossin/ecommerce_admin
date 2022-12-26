@@ -101,4 +101,8 @@ class ProductProvider extends ChangeNotifier {
     final discountAmount = (price * discount) / 100;
     return price - discountAmount;
   }
+  
+  ProductModel getProductByIdFromCache(String id){
+    return productList.firstWhere((element) => element.productId == id);
+  }
 }

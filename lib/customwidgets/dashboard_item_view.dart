@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class DashboardItemView extends StatelessWidget {
   final DashboardModel model;
+  final Widget? badge;
 
-  const DashboardItemView({Key? key, required this.model}) : super(key: key);
+  const DashboardItemView({Key? key, required this.model, this.badge}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +16,17 @@ class DashboardItemView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
-                model.iconData,
-                size: 50,
-                color: Theme.of(context).primaryColor,
+              Stack(
+                children: [
+                  Icon(
+                    model.iconData,
+                    size: 50,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  if(badge != null) badge!,
+                ],
               ),
+              const SizedBox(height: 10,),
               Text(
                 model.title,
                 style: Theme.of(context).textTheme.headline6,

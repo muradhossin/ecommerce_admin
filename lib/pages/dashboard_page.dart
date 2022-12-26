@@ -1,7 +1,9 @@
 import 'package:ecommerce_admin/auth/auth_service.dart';
+import 'package:ecommerce_admin/customwidgets/badge_view.dart';
 import 'package:ecommerce_admin/customwidgets/dashboard_item_view.dart';
 import 'package:ecommerce_admin/models/dashboard_model.dart';
 import 'package:ecommerce_admin/pages/launcher_page.dart';
+import 'package:ecommerce_admin/providers/notification_provider.dart';
 import 'package:ecommerce_admin/providers/order_provider.dart';
 import 'package:ecommerce_admin/providers/product_provider.dart';
 import 'package:ecommerce_admin/providers/user_provider.dart';
@@ -20,6 +22,7 @@ class DashboardPage extends StatelessWidget {
     Provider.of<OrderProvider>(context,listen: false).getOrderConstants();
     Provider.of<OrderProvider>(context,listen: false).getOrders();
     Provider.of<UserProvider>(context, listen: false).getAllUser();
+    Provider.of<NotificationProvider>(context, listen: false).getAllNotification();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Dashboard'),
@@ -40,8 +43,16 @@ class DashboardPage extends StatelessWidget {
           crossAxisCount: 2,
         ),
         itemCount: dashboardModelList.length,
-        itemBuilder: (context, index) =>
-          DashboardItemView(model: dashboardModelList[index],),
+        itemBuilder: (context, index) {
+          final model = dashboardModelList[index];
+          if(model.title == 'Notification'){
+            final count = Provider.of<NotificationProvider>(context).totalUnreadMessage;
+            return DashboardItemView(
+              model: model, badge: BadgeView(count: count,),);
+          }
+          return DashboardItemView(
+              model: model,);
+        },
       ),
     );
   }

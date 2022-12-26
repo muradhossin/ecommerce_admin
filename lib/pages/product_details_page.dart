@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/models/image_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
+import 'package:ecommerce_admin/pages/notification_page.dart';
 import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
 import 'package:ecommerce_admin/utils/constants.dart';
 import 'package:ecommerce_admin/utils/helper_functions.dart';
@@ -27,9 +28,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   void didChangeDependencies() {
+    final id = ModalRoute.of(context)!.settings.arguments as String?;
     size = MediaQuery.of(context).size;
     productProvider = Provider.of<ProductProvider>(context, listen: false);
-    productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    if(id != null){
+      productModel = productProvider.getProductByIdFromCache(id);
+    }else{
+      productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    }
     super.didChangeDependencies();
   }
 
