@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import '../models/category_model.dart';
+import '../models/comment_model.dart';
 import '../models/image_model.dart';
 import '../models/product_model.dart';
 
@@ -104,5 +105,15 @@ class ProductProvider extends ChangeNotifier {
   
   ProductModel getProductByIdFromCache(String id){
     return productList.firstWhere((element) => element.productId == id);
+  }
+
+  Future<List<CommentModel>> getCommentsByProduct(String productId) async{
+    final snapshot = await DbHelper.getCommentsByProduct(productId);
+    final commentList = List.generate(snapshot.docs.length, (index) => CommentModel.fromMap(snapshot.docs[index].data()));
+    return commentList;
+  }
+
+  Future<void> approveComment(String productId, CommentModel commentModel) {
+    return DbHelper.approveComment(productId, commentModel);
   }
 }

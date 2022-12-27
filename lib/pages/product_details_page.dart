@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../customwidgets/photo_frame_view.dart';
+import '../models/comment_model.dart';
 import '../providers/product_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
@@ -28,13 +29,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    final id = ModalRoute.of(context)!.settings.arguments as String?;
     size = MediaQuery.of(context).size;
     productProvider = Provider.of<ProductProvider>(context, listen: false);
-    if(id != null){
-      productModel = productProvider.getProductByIdFromCache(id);
-    }else{
-      productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    final object = ModalRoute.of(context)!.settings.arguments;
+    if (object is String) {
+      productModel = productProvider.getProductByIdFromCache(object);
+    } else {
+      productModel = object as ProductModel;
     }
     super.didChangeDependencies();
   }
@@ -152,6 +153,75 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
             title: const Text('Featured'),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: Text(
+              'All Comments',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
+          FutureBuilder<List<CommentModel>>(
+            future:
+                productProvider.getCommentsByProduct(productModel.productId!),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final commentList = snapshot.data!;
+                if (commentList.isEmpty) {
+                  return const Center(
+                    child: Text('No comments found'),
+                  );
+                } else {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: commentList
+                        .map((comment) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ListTile(
+                                  title: Text(comment.userModel.displayName ??
+                                      comment.userModel.email),
+                                  subtitle: Text(comment.date),
+                                  leading: comment.userModel.imageUrl == null
+                                      ? const Icon(Icons.person)
+                                      : CachedNetworkImage(
+                                          width: 70,
+                                          height: 100,
+                                          fit: BoxFit.cover,
+                                          imageUrl: comment.userModel.imageUrl!,
+                                          placeholder: (context, url) =>
+                                              const Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    comment.comment,
+                                  ),
+                                ),
+                                OutlinedButton(
+                                  onPressed: comment.approved ? null : () {
+                                    _approveComment(comment);
+                                  },
+                                  child: const Text('Approve this comment'),
+                                ),
+                              ],
+                            ))
+                        .toList(),
+                  );
+                }
+              }
+              if (snapshot.hasError) {
+                return const Text('Failed to load comments');
+              }
+              return const Center(
+                child: Text('Loading comments'),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -222,25 +292,25 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ),
               actions: [
                 TextButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     Navigator.pop(context);
-                    try{
+                    try {
                       _addImage(i);
                       await productProvider.deleteImage(url);
-                    }catch(error){
+                    } catch (error) {
                       showMsg(context, 'Failed to Update');
                     }
                   },
                   child: const Text('CHANGE'),
                 ),
                 TextButton(
-                  onPressed: () async{
+                  onPressed: () async {
                     Navigator.pop(context);
                     EasyLoading.show(status: "Deleting image");
                     setState(() {
                       productModel.additionalImageModels[i] = '';
                     });
-                    try{
+                    try {
                       await productProvider.deleteImage(url);
                       await productProvider.updateProductField(
                         productModel.productId!,
@@ -248,8 +318,8 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         productModel.additionalImageModels,
                       );
                       EasyLoading.dismiss();
-                      if(mounted) showMsg(context, 'Deleted');
-                    }catch(error){
+                      if (mounted) showMsg(context, 'Deleted');
+                    } catch (error) {
                       EasyLoading.dismiss();
                       showMsg(context, 'Failed to Delete');
                     }
@@ -258,5 +328,15 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                 ),
               ],
             ));
+  }
+
+  void _approveComment(CommentModel commentModel) async {
+    EasyLoading.show(status: 'Please wait');
+    await productProvider.approveComment(productModel.productId!, commentModel);
+    EasyLoading.dismiss();
+    showMsg(context, 'Comment Approved');
+    setState(() {
+
+    });
   }
 }

@@ -6,6 +6,7 @@ import 'package:ecommerce_admin/models/order_model.dart';
 import 'package:ecommerce_admin/models/product_model.dart';
 import 'package:ecommerce_admin/models/purchase_model.dart';
 
+import '../models/comment_model.dart';
 import '../models/user_model.dart';
 
 class DbHelper {
@@ -133,5 +134,21 @@ class DbHelper {
         .collection(collectionNotification)
         .doc(id)
         .update({notificationFieldStatus: true});
+  }
+
+  static Future<QuerySnapshot<Map<String, dynamic>>> getCommentsByProduct(
+          String productId) =>
+      _db
+          .collection(collectionProduct)
+          .doc(productId)
+          .collection(collectionComment)
+          .get();
+
+  static Future<void> approveComment(String productId, CommentModel commentModel) {
+    return _db.collection(collectionProduct)
+        .doc(productId)
+        .collection(collectionComment)
+        .doc(commentModel.commentId)
+        .update({commentFieldApproved : true});
   }
 }
