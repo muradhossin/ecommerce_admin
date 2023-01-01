@@ -46,6 +46,10 @@ dependencies:
   flutter_easyloading:
   connectivity_plus:
   cloud_firestore:
+  firebase_messaging:
+  flutter_local_notifications:
+  firebase_analytics:
+
 
 
 dev_dependencies:
