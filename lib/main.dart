@@ -51,6 +51,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       builder: EasyLoading.init(),
       initialRoute: LauncherPage.routeName,
+      theme: ThemeData(
+        useMaterial3: true,
+        primarySwatch: Colors.blue,
+      ),
       routes: {
         LauncherPage.routeName: (_) => const LauncherPage(),
         LoginPage.routeName: (_) => const LoginPage(),
