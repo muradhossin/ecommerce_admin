@@ -1,24 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_admin/pages/add_product_page.dart';
-import 'package:ecommerce_admin/pages/category_page.dart';
-import 'package:ecommerce_admin/pages/dashboard_page.dart';
-import 'package:ecommerce_admin/pages/launcher_page.dart';
-import 'package:ecommerce_admin/pages/login_page.dart';
-import 'package:ecommerce_admin/pages/notification_page.dart';
-import 'package:ecommerce_admin/pages/order_details_page.dart';
-import 'package:ecommerce_admin/pages/order_page.dart';
-import 'package:ecommerce_admin/pages/product_details_page.dart';
-import 'package:ecommerce_admin/pages/product_repurchase_page.dart';
-import 'package:ecommerce_admin/pages/report_page.dart';
-import 'package:ecommerce_admin/pages/settings_page.dart';
-import 'package:ecommerce_admin/pages/user_list_page.dart';
-import 'package:ecommerce_admin/pages/view_product_page.dart';
-import 'package:ecommerce_admin/providers/notification_provider.dart';
-import 'package:ecommerce_admin/providers/order_provider.dart';
-import 'package:ecommerce_admin/providers/product_provider.dart';
-import 'package:ecommerce_admin/providers/user_provider.dart';
+import 'package:ecommerce_admin/view/auth/login_page.dart';
+import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
+import 'package:ecommerce_admin/view/product/add_product_page.dart';
+import 'package:ecommerce_admin/view/category/category_page.dart';
+import 'package:ecommerce_admin/view/dashboard/dashboard_page.dart';
+import 'package:ecommerce_admin/view/dashboard/launcher_page.dart';
+import 'package:ecommerce_admin/view/notification/notification_page.dart';
+import 'package:ecommerce_admin/view/order/order_details_page.dart';
+import 'package:ecommerce_admin/view/order/order_page.dart';
+import 'package:ecommerce_admin/view/product/product_details_page.dart';
+import 'package:ecommerce_admin/view/product/product_repurchase_page.dart';
+import 'package:ecommerce_admin/view/report/report_page.dart';
+import 'package:ecommerce_admin/view/setting/settings_page.dart';
+import 'package:ecommerce_admin/view/user/user_list_page.dart';
+import 'package:ecommerce_admin/view/product/view_product_page.dart';
+import 'package:ecommerce_admin/view/notification/provider/notification_provider.dart';
+import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
+import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
+import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +36,7 @@ void main() async{
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
+        ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
     child: const MyApp(),
   ));
