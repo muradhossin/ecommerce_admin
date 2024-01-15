@@ -49,12 +49,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner:false,
       builder: EasyLoading.init(),
       initialRoute: LauncherPage.routeName,
-      theme: ThemeData(
-        useMaterial3: true,
-        primarySwatch: Colors.blue,
-      ),
+      themeMode: ThemeMode.system,
+      theme: LightTheme.theme,
+      darkTheme: DarkTheme.theme,
       routes: {
         LauncherPage.routeName: (_) => const LauncherPage(),
         LoginPage.routeName: (_) => const LoginPage(),
