@@ -1,5 +1,8 @@
+import 'package:ecommerce_admin/core/components/custom_image.dart';
+import 'package:ecommerce_admin/core/constants/app_constants.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/core/extensions/image_path.dart';
 import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/dashboard/launcher_page.dart';
@@ -89,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
 
             TextFormField(
               onFieldSubmitted: (value) {
-                _authenticate;
+                _authenticate();
               },
               controller: _passwordController,
               focusNode: _passwordFocusNode,
@@ -134,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               onPressed: () {
-                _authenticate;
+                _authenticate();
               },
               child: Text('Login', style: const TextStyle().regular.copyWith(color: context.theme.colorScheme.onPrimary),),
             ),
