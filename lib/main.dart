@@ -1,3 +1,5 @@
+import 'package:ecommerce_admin/core/themes/dark_theme.dart';
+import 'package:ecommerce_admin/core/themes/light_theme.dart';
 import 'package:ecommerce_admin/view/auth/login_page.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/add_product_page.dart';
