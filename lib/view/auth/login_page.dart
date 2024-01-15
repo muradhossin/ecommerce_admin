@@ -1,5 +1,6 @@
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/dashboard/launcher_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -41,6 +42,13 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.all(16),
           shrinkWrap: true,
           children: [
+
+            CustomImage(imagePath: Images.logo, width: 100, height: 100,),
+            const SizedBox(height: Dimensions.heightMedium,),
+
+            const Text(AppConstants.appName, textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold,),),
+            const SizedBox(height: Dimensions.heightExtraLarge,),
+
             TextFormField(
               onFieldSubmitted: (value) {
                 _passwordFocusNode.requestFocus();
@@ -77,34 +85,61 @@ class _LoginPageState extends State<LoginPage> {
                 return null;
               },
             ),
-            const SizedBox(
-              height: 5,
-            ),
+            const SizedBox(height: Dimensions.paddingMedium,),
+
             TextFormField(
+              onFieldSubmitted: (value) {
+                _authenticate;
+              },
               controller: _passwordController,
+              focusNode: _passwordFocusNode,
               obscureText: true,
+              autofocus: true,
               decoration: InputDecoration(
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusMedium)),
+                  borderSide: BorderSide(color: context.theme.primaryColor.withOpacity(.2)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusMedium)),
+                  borderSide: BorderSide(color: context.theme.primaryColor),
+                ),
+                errorBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radiusMedium)),
+                  borderSide: BorderSide(color: Colors.red),
+                ),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(Dimensions.radiusMedium)),
+                ),
                 labelText: 'Password',
-                prefixIcon: Icon(Icons.password),
+                prefixIcon: const Icon(Icons.lock),
                 filled: true,
               ),
-              validator: (value){
-                if(value == null || value.isEmpty){
-                  return 'This field must not be empty';
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your password';
                 }
                 return null;
               },
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: Dimensions.paddingLarge),
+
             ElevatedButton(
-              onPressed: _authenticate,
-              child: const Text('Login as Admin'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: context.theme.primaryColor,
+                animationDuration: const Duration(milliseconds: 500),
+                padding: const EdgeInsets.all(Dimensions.paddingMedium),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusMedium),
+                ),
+              ),
+              onPressed: () {
+                _authenticate;
+              },
+              child: Text('Login', style: const TextStyle().regular.copyWith(color: context.theme.colorScheme.onPrimary),),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: Dimensions.paddingMedium),
+
             Text(
               _errMsg,
               style: const TextStyle(
@@ -112,6 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.red,
               ),
             ),
+
           ],
         ),
       )),
