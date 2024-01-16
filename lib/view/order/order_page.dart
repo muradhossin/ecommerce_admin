@@ -27,8 +27,8 @@ class OrderPage extends StatelessWidget {
                 Navigator.pushNamed(context, OrderDetailsPage.routeName, arguments: order.orderId);
               },
               title: Text(getFormattedDate(
-                  order.orderDate.timestamp.toDate(),
-                  pattern: 'dd/MM/yyyy HH:mm:ss')),
+                  getDateTimeFromTimeStampString(order.orderDate.timestamp),
+                  pattern: 'dd MMM yyyy hh:mm a')),
               subtitle: Text(order.orderStatus),
               trailing: Text('$currencySymbol${order.grandTotal}'),
             );

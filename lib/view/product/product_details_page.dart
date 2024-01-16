@@ -239,7 +239,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               final purchaseModel = purchaseList[index];
               return ListTile(
                 title: Text(getFormattedDate(
-                    purchaseModel.dateModel.timestamp.toDate())),
+                    getDateTimeFromTimeStampString(purchaseModel.dateModel.timestamp))),
                 subtitle: Text('BDT: ${purchaseModel.purchasePrice}'),
                 trailing: Text('Quantity: ${purchaseModel.purchaseQuantity}'),
               );

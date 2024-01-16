@@ -22,7 +22,7 @@ class UserListPage extends StatelessWidget {
               title: Text(user.displayName ?? 'No Display Name'),
               subtitle: Text(user.email),
               trailing: Text(
-                  "Joint on \n${getFormattedDate(user.userCreationTime!.toDate())}"),
+                  "Joint on \n${getFormattedDate(DateTime.parse(user.userCreationTime!))}"),
             );
           },
         ),

@@ -380,7 +380,7 @@ class _AddProductPageState extends State<AddProductPage> {
           purchaseQuantity: num.parse(_quantityController.text),
           purchasePrice: num.parse(_purchasePriceController.text),
           dateModel: DateModel(
-            timestamp: Timestamp.fromDate(purchaseDate!),
+            timestamp: purchaseDate!.toString(),
             day: purchaseDate!.day,
             month: purchaseDate!.month,
             year: purchaseDate!.year,

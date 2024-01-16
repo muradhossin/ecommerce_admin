@@ -18,7 +18,7 @@ class UserModel{
   String userId;
   String? displayName;
   AddressModel? addressModel;
-  Timestamp? userCreationTime;
+  String? userCreationTime;
   String? gender;
   String? age;
   String? phone;
@@ -54,7 +54,7 @@ class UserModel{
     userId: map[userFieldId],
     displayName: map[userFieldDisplayName],
     addressModel: map[userFieldAddressModel] == null ? null : AddressModel.fromMap(map[userFieldAddressModel]),
-    userCreationTime: map[userFieldCreationTime],
+    userCreationTime: map[userFieldCreationTime].toString(),
     gender: map[userFieldGender],
     age: map[userFieldAge],
     phone: map[userFieldPhone],
