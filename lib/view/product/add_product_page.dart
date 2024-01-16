@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/view/category/models/category_model.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/order/models/date_model.dart';
@@ -69,8 +71,8 @@ class _AddProductPageState extends State<AddProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('New Product'),
+      appBar: CustomAppbar(
+        title: 'New Product',
         actions: [
           IconButton(
             onPressed: _isConnected ? _saveProduct : null,
@@ -78,6 +80,7 @@ class _AddProductPageState extends State<AddProductPage> {
           ),
         ],
       ),
+
       body: Form(
         key: _formKey,
         child: ListView(
