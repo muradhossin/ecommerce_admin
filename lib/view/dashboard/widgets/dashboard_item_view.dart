@@ -12,6 +12,7 @@ class DashboardItemView extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, model.routeName),
       child: Card(
+        elevation: 2,
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -29,7 +30,7 @@ class DashboardItemView extends StatelessWidget {
               const SizedBox(height: 10,),
               Text(
                 model.title,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
           ),

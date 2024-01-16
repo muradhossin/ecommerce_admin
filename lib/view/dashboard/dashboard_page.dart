@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
+import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/dashboard/widgets/badge_view.dart';
@@ -31,7 +34,9 @@ class DashboardPage extends StatelessWidget {
         .getAllNotification();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        backgroundColor: context.theme.primaryColor,
+        elevation: 10,
+        title: Text('Dashboard', style: const TextStyle().regular.copyWith(color: context.theme.cardColor)),
         actions: [
           IconButton(
             onPressed: () {
@@ -40,19 +45,21 @@ class DashboardPage extends StatelessWidget {
                     context, LauncherPage.routeName),
               );
             },
-            icon: const Icon(Icons.logout),
+            icon: Icon(Icons.logout, color: context.theme.cardColor),
           ),
           IconButton(
             onPressed: (){
               _sendNotification();
             },
-            icon: const Icon(Icons.send),
+            icon: Icon(Icons.send, color: context.theme.cardColor,),
           ),
         ],
       ),
       body: GridView.builder(
+        padding: const EdgeInsets.all(Dimensions.paddingSmall),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
+
         ),
         itemCount: dashboardModelList.length,
         itemBuilder: (context, index) {
