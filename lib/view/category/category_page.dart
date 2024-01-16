@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +13,7 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Categories'),
-      ),
+      appBar: const CustomAppbar(title: 'Categories'),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showSingleTextFieldInputDialog(

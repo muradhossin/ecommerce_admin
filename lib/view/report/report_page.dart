@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
@@ -29,9 +30,7 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Report'),
-      ),
+      appBar: const CustomAppbar(title: 'Report'),
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: [

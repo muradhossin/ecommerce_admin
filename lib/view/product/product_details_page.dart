@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/product/models/image_model.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
 import 'package:ecommerce_admin/view/notification/notification_page.dart';
@@ -43,9 +44,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(productModel.productName),
-      ),
+      appBar: CustomAppbar(title: productModel.productName),
       body: ListView(
         children: [
           CachedNetworkImage(

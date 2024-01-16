@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/product_details_page.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,8 @@ class _ViewProductPageState extends State<ViewProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Product'),
+      appBar: const CustomAppbar(
+        title: 'All Product',
       ),
       body: Consumer<CategoryProvider>(
         builder: (context, categoryProvider, child) =>

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/core/extensions/style.dart';
@@ -32,17 +33,15 @@ class DashboardPage extends StatelessWidget {
     Provider.of<UserProvider>(context, listen: false).getAllUser();
     Provider.of<NotificationProvider>(context, listen: false)
         .getAllNotification();
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.theme.primaryColor,
-        elevation: 10,
-        title: Text('Dashboard', style: const TextStyle().regular.copyWith(color: context.theme.cardColor)),
+      appBar: CustomAppbar(
+        title: 'Dashboard',
         actions: [
           IconButton(
             onPressed: () {
               AuthService.logout().then(
-                (value) => Navigator.pushReplacementNamed(
-                    context, LauncherPage.routeName),
+                (value) => Navigator.pushReplacementNamed(context, LauncherPage.routeName),
               );
             },
             icon: Icon(Icons.logout, color: context.theme.cardColor),
@@ -55,6 +54,7 @@ class DashboardPage extends StatelessWidget {
           ),
         ],
       ),
+
       body: GridView.builder(
         padding: const EdgeInsets.all(Dimensions.paddingSmall),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

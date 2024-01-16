@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,7 @@ class OrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final id = ModalRoute.of(context)!.settings.arguments as String?;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Orders'),
-      ),
+      appBar: const CustomAppbar(title: 'Orders'),
       body: Consumer<OrderProvider>(
         builder: (context, provider, child) => ListView.builder(
           itemCount: provider.orderList.length,

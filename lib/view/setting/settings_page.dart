@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/order/models/order_constant_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
@@ -39,9 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
+      appBar: const CustomAppbar(title: 'Settings'),
       body: Center(
         child: Form(
           key: _formKey,

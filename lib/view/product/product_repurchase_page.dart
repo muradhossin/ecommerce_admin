@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +34,7 @@ class _ProductRepurchasePageState extends State<ProductRepurchasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Re - Purchase'),
-      ),
+      appBar: const CustomAppbar(title: 'Re - Purchase'),
       body: Center(
         child: Form(
           key: _formKey,

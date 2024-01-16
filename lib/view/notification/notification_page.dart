@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
 import 'package:ecommerce_admin/view/order/order_details_page.dart';
 import 'package:ecommerce_admin/view/order/order_page.dart';
@@ -16,9 +17,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Notification"),
-      ),
+      appBar: const CustomAppbar(title: 'Notifications'),
       body: Consumer<NotificationProvider>(
         builder: (context, provider, child) =>
             ListView.builder(

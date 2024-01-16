@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
@@ -35,9 +36,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(orderId),
-      ),
+      appBar: CustomAppbar(title: 'Order ID: $orderId'),
       body: ListView(
         padding: const EdgeInsets.all(8.0),
         children: [

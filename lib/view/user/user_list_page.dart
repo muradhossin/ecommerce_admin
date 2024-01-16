@@ -1,3 +1,4 @@
+import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,7 @@ class UserListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Users'),
-      ),
+      appBar: const CustomAppbar(title: 'Users'),
       body: Consumer<UserProvider>(
         builder: (context, provider, child) => ListView.builder(
           itemCount: provider.userList.length,
