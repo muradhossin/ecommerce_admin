@@ -231,7 +231,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 controller: _discountController,
                 decoration: const InputDecoration(
                   filled: true,
-                  labelText: "Enter Discount",
+                  labelText: "Enter Discount (%)",
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
