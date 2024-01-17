@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/view/product/models/image_model.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
 import 'package:ecommerce_admin/view/notification/notification_page.dart';
@@ -112,6 +113,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     arguments: productModel),
                 child: const Text('Re-Purchase'),
               ),
+              const SizedBox(width: Dimensions.paddingExtraSmall),
               OutlinedButton(
                 onPressed: () {
                   _showPurchaseHistory();
@@ -122,7 +124,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           ListTile(
             title: Text(productModel.productName),
-            subtitle: Text(productModel.category.categoryName),
+            subtitle: Text('Category: ${productModel.category.categoryName}'),
           ),
           ListTile(
             title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
@@ -152,8 +154,31 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
             title: const Text('Featured'),
           ),
+
+          ListTile(
+            title: Text('Short Description'),
+            subtitle: Text("${productModel.shortDescription ?? 'N/A'}"),
+            trailing: IconButton(
+              onPressed: () {
+
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ),
+
+          ListTile(
+            title: Text('Long Description'),
+            subtitle: Text("${productModel.longDescription ?? 'N/A'}"),
+            trailing: IconButton(
+              onPressed: () {
+
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ),
+
           Padding(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(Dimensions.paddingMedium),
             child: Text(
               'All Comments',
               style: Theme.of(context).textTheme.subtitle1,
@@ -221,6 +246,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               );
             },
           ),
+          const SizedBox(height: Dimensions.heightLarge),
         ],
       ),
     );

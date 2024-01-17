@@ -393,7 +393,7 @@ class _AddProductPageState extends State<AddProductPage> {
         await _productProvider.addNewProduct(productModel, purchaseModel);
         EasyLoading.dismiss();
         if(mounted){
-          showMsg(context, "Saved");
+          showMsg(context, "New product added successfully");
         }
         _resetFields();
 
