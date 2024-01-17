@@ -171,7 +171,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 controller: _purchasePriceController,
                 decoration: const InputDecoration(
                   filled: true,
-                  labelText: "Enter Purchase Price",
+                  labelText: "Enter Purchase Price (only admin can see this)",
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
