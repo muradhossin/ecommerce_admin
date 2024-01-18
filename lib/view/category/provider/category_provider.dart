@@ -29,4 +29,6 @@ class CategoryProvider extends ChangeNotifier {
     ];
   }
 
+  List<CategoryModel> get getAllCategoriesList => categoryList;
+
 }

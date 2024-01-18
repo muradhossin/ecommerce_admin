@@ -7,6 +7,7 @@ import 'package:ecommerce_admin/view/notification/notification_page.dart';
 import 'package:ecommerce_admin/view/product/product_repurchase_page.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
+import 'package:ecommerce_admin/view/product/widgets/product_edit_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
@@ -125,12 +126,32 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ListTile(
             title: Text(productModel.productName),
             subtitle: Text('Category: ${productModel.category.categoryName}'),
+            trailing: IconButton(
+              onPressed: () {
+                //dialog
+                showDialog(context: context, builder: (BuildContext context) =>  ProductEditDialog(
+                  productModel: productModel,
+                ));
+              },
+              icon: const Icon(Icons.edit),
+            ),
           ),
           ListTile(
             title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
             subtitle: Text("Discount: ${productModel.productDiscount}%"),
-            trailing: Text(
-                "$currencySymbol${productProvider.priceAfterDiscount(productModel.salePrice, productModel.productDiscount)}"),
+            trailing: Row(mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+
+                Text("$currencySymbol${productProvider.priceAfterDiscount(productModel.salePrice, productModel.productDiscount)}"),
+
+                IconButton(
+                  onPressed: () {
+                  },
+                  icon: const Icon(Icons.edit),
+                ),
+
+              ],
+            ),
           ),
           SwitchListTile(
             value: productModel.available,
@@ -156,7 +177,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
 
           ListTile(
-            title: Text('Short Description'),
+            title: const Text('Short Description'),
             subtitle: Text("${productModel.shortDescription ?? 'N/A'}"),
             trailing: IconButton(
               onPressed: () {
