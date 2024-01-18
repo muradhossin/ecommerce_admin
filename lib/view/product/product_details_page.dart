@@ -46,7 +46,26 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: productModel.productName),
+      appBar: CustomAppbar(
+        title: productModel.productName, 
+        actions: [
+          Consumer<ProductProvider>(builder: (context, provider, child) => IconButton(
+              onPressed: () {
+                showDialog(context: context, builder: (BuildContext context) =>  ProductEditDialog(
+                  productModel: productModel,
+                  onProductUpdated: (productModel) async{
+                    EasyLoading.show(status: 'Updating...');
+                    await provider.updateProduct(productModel);
+                    EasyLoading.dismiss();
+                  },
+                ));
+
+              },
+              icon: const Icon(Icons.edit),
+            ),
+          ),
+        ],
+      ),
       body: ListView(
         children: [
           CachedNetworkImage(
@@ -126,32 +145,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ListTile(
             title: Text(productModel.productName),
             subtitle: Text('Category: ${productModel.category.categoryName}'),
-            trailing: IconButton(
-              onPressed: () {
-                //dialog
-                showDialog(context: context, builder: (BuildContext context) =>  ProductEditDialog(
-                  productModel: productModel,
-                ));
-              },
-              icon: const Icon(Icons.edit),
-            ),
           ),
           ListTile(
             title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
             subtitle: Text("Discount: ${productModel.productDiscount}%"),
-            trailing: Row(mainAxisAlignment: MainAxisAlignment.end, mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-
-                Text("$currencySymbol${productProvider.priceAfterDiscount(productModel.salePrice, productModel.productDiscount)}"),
-
-                IconButton(
-                  onPressed: () {
-                  },
-                  icon: const Icon(Icons.edit),
-                ),
-
-              ],
-            ),
+            trailing: Text("$currencySymbol${productProvider.priceAfterDiscount(productModel.salePrice, productModel.productDiscount)}"),
           ),
           SwitchListTile(
             value: productModel.available,
@@ -179,23 +177,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ListTile(
             title: const Text('Short Description'),
             subtitle: Text("${productModel.shortDescription ?? 'N/A'}"),
-            trailing: IconButton(
-              onPressed: () {
-
-              },
-              icon: const Icon(Icons.edit),
-            ),
           ),
 
           ListTile(
             title: Text('Long Description'),
             subtitle: Text("${productModel.longDescription ?? 'N/A'}"),
-            trailing: IconButton(
-              onPressed: () {
-
-              },
-              icon: const Icon(Icons.edit),
-            ),
           ),
 
           Padding(

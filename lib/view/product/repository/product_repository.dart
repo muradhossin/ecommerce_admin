@@ -96,4 +96,10 @@ class ProductRepository {
         .update({commentFieldApproved : true});
   }
 
+  static Future<void> updateProduct(ProductModel productModel) {
+    return _db.collection(collectionProduct)
+        .doc(productModel.productId)
+        .update(productModel.toMap());
+  }
+
 }

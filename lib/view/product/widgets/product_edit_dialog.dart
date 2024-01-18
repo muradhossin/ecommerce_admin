@@ -5,20 +5,19 @@ import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/category/models/category_model.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
-import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductEditDialog extends StatefulWidget {
   final ProductModel productModel;
-  const ProductEditDialog({super.key, required this.productModel});
+  final Function(ProductModel) onProductUpdated;
+  const ProductEditDialog({super.key, required this.productModel, required this.onProductUpdated});
 
   @override
   State<ProductEditDialog> createState() => _ProductEditDialogState();
 }
 
 class _ProductEditDialogState extends State<ProductEditDialog> {
-  CategoryModel? categoryModel;
   TextEditingController nameController = TextEditingController();
   TextEditingController salePriceController = TextEditingController();
   TextEditingController discountController = TextEditingController();
@@ -26,9 +25,14 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   TextEditingController longDescriptionController = TextEditingController();
 
 
+  @override
   void initState() {
     super.initState();
-    // categoryModel = widget.productModel.category;
+    nameController.text = widget.productModel.productName;
+    salePriceController.text = widget.productModel.salePrice.toString();
+    discountController.text = widget.productModel.productDiscount.toString();
+    shortDescriptionController.text = widget.productModel.shortDescription ?? '';
+    longDescriptionController.text = widget.productModel.longDescription ?? '';
   }
 
   @override
@@ -46,6 +50,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             hintText: 'Product Name',
             labelText: 'Product Name',
             onChanged: (value) {
+              widget.productModel.productName = value;
 
             },
           ),
@@ -54,13 +59,13 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
           Consumer<CategoryProvider>(
             builder: (context, categoryProvider, child) =>
             DropdownButtonFormField<CategoryModel>(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Category',
                 border: OutlineInputBorder(),
               ),
               isExpanded: true,
               hint: const Text('Category'),
-              value: categoryModel,
+              value: widget.productModel.category,
               validator: (value) {
                 if (value == null) {
                   return 'Please select a category';
@@ -77,7 +82,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
                   .toList(),
               onChanged: (value) {
                 setState(() {
-                  categoryModel = value;
+                  widget.productModel.category.categoryName = value?.categoryName ?? '';
                 });
               },
             ),
@@ -88,8 +93,9 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             controller: salePriceController,
             hintText: 'Sale Price',
             labelText: 'Sale Price',
+            keyboardType: TextInputType.number,
             onChanged: (value) {
-
+              widget.productModel.salePrice = num.tryParse(value.toString()) ?? 0;
             },
           ),
           const SizedBox(height: Dimensions.paddingSmall),
@@ -98,8 +104,9 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             controller: discountController,
             hintText: 'Price Discount (%)',
             labelText: 'Price Discount (%)',
+            keyboardType: TextInputType.number,
             onChanged: (value) {
-
+              widget.productModel.productDiscount = num.tryParse(value.toString()) ?? 0;
             },
           ),
           const SizedBox(height: Dimensions.paddingSmall),
@@ -109,7 +116,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             hintText: 'Short Description',
             labelText: 'Short Description',
             onChanged: (value) {
-
+              widget.productModel.shortDescription = value;
             },
           ),
           const SizedBox(height: Dimensions.paddingSmall),
@@ -119,7 +126,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             hintText: 'Long Description',
             labelText: 'Long Description',
             onChanged: (value) {
-
+              widget.productModel.longDescription = value;
             },
           ),
 
@@ -129,7 +136,8 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             width: double.infinity,
             text: 'Update',
             onPressed: () {
-
+              widget.onProductUpdated(widget.productModel);
+              Navigator.pop(context);
             },
           ),
 
@@ -139,5 +147,16 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         ]),
       ),
     ));
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    salePriceController.dispose();
+    discountController.dispose();
+    shortDescriptionController.dispose();
+    longDescriptionController.dispose();
+
+    super.dispose();
   }
 }

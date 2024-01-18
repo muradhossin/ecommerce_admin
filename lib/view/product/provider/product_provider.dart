@@ -90,4 +90,8 @@ class ProductProvider extends ChangeNotifier {
   Future<void> approveComment(String productId, CommentModel commentModel) {
     return ProductRepository.approveComment(productId, commentModel);
   }
+
+  Future<void> updateProduct(ProductModel productModel) {
+    return ProductRepository.updateProduct(productModel);
+  }
 }
