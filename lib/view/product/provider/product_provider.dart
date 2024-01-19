@@ -94,4 +94,8 @@ class ProductProvider extends ChangeNotifier {
   Future<void> updateProduct(ProductModel productModel) {
     return ProductRepository.updateProduct(productModel);
   }
+
+  Future<void> deleteProduct(String productId) {
+    return ProductRepository.deleteProduct(productId);
+  }
 }

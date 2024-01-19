@@ -102,4 +102,8 @@ class ProductRepository {
         .update(productModel.toMap());
   }
 
+  static Future<void> deleteProduct(String productId) {
+    return _db.collection(collectionProduct).doc(productId).delete();
+  }
+
 }

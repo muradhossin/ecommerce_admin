@@ -62,7 +62,29 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
               },
               icon: const Icon(Icons.edit),
-            ),
+            ),),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () async {
+              showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  title: const Text('Are you sure?'),
+                  content: const Text('Do you want to delete this product?'),
+                  actions: [
+                    TextButton(onPressed: () {
+                      Navigator.pop(context);
+                    }, child: const Text('No')),
+                    TextButton(onPressed: () async {
+                      Navigator.pop(context);
+                      EasyLoading.show(status: 'Deleting...');
+                      await productProvider.deleteProduct(productModel.productId!);
+                      EasyLoading.dismiss();
+                      if(mounted) Navigator.pop(context);
+                    }, child: const Text('Yes')),
+                  ],
+                );
+              },);
+            },
           ),
         ],
       ),
