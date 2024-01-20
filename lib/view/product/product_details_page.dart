@@ -165,7 +165,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             ],
           ),
           ListTile(
-            title: Text(productModel.productName),
+            title: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(productModel.productName),
+                Text('Stock: ${productModel.stock}'),
+              ],
+            ),
             subtitle: Text('Category: ${productModel.category.categoryName}'),
           ),
           ListTile(
