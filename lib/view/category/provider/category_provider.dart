@@ -31,4 +31,16 @@ class CategoryProvider extends ChangeNotifier {
 
   List<CategoryModel> get getAllCategoriesList => categoryList;
 
+  Future<void> updateCategory(id, String name) {
+    final categoryModel = CategoryModel(
+      categoryId: id,
+      categoryName: name,
+    );
+    return CategoryRepository.updateCategory(categoryModel);
+  }
+
+  Future<void> deleteCategory(String? categoryId) {
+    return CategoryRepository.deleteCategory(categoryId);
+  }
+
 }

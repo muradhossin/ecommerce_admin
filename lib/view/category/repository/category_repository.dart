@@ -12,4 +12,15 @@ class CategoryRepository {
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
       _db.collection(collectionCategory).snapshots();
+
+  static Future<void> updateCategory(CategoryModel categoryModel) {
+    return _db
+        .collection(collectionCategory)
+        .doc(categoryModel.categoryId)
+        .update(categoryModel.toMap());
+  }
+
+  static Future<void> deleteCategory(String? categoryId) {
+    return _db.collection(collectionCategory).doc(categoryId).delete();
+  }
 }

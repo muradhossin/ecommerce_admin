@@ -6,9 +6,10 @@ void showSingleTextFieldInputDialog({
   required String title,
   String positiveButton = 'OK',
   String negativeButton = 'CLOSE',
+  String? textFieldsInitialValue,
   required Function(String) onSubmit,
 }) {
-  final txtController = TextEditingController();
+  final txtController = TextEditingController(text: textFieldsInitialValue);
   showDialog(
       context: context,
       builder: (context) => AlertDialog(
