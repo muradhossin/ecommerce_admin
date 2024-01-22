@@ -1,3 +1,5 @@
+import 'package:ecommerce_admin/view/order/models/contact_info_model.dart';
+
 import '../../user/models/address_model.dart';
 import '../../cart/models/cart_model.dart';
 import 'date_model.dart';
@@ -15,6 +17,7 @@ const String orderFieldPaymentMethod = 'paymentMethod';
 const String orderFieldOrderDate = 'orderDate';
 const String orderFieldDeliveryAddress = 'deliveryAddress';
 const String orderFieldProductDetails = 'productDetails';
+const String orderFieldContactInfo = 'contactInfo';
 
 class OrderModel {
   String orderId;
@@ -27,6 +30,7 @@ class OrderModel {
   num deliveryCharge;
   DateModel orderDate;
   AddressModel deliveryAddress;
+  ContactInfoModel contactInfo;
   List<CartModel> productDetails;
 
   OrderModel(
@@ -40,7 +44,9 @@ class OrderModel {
         required this.deliveryCharge,
         required this.orderDate,
         required this.deliveryAddress,
-        required this.productDetails});
+        required this.productDetails,
+        required this.contactInfo,
+      });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -54,6 +60,7 @@ class OrderModel {
       orderFieldDeliveryCharge: deliveryCharge,
       orderFieldOrderDate: orderDate.toMap(),
       orderFieldDeliveryAddress: deliveryAddress.toMap(),
+      orderFieldContactInfo: contactInfo.toMap(),
       orderFieldProductDetails: List.generate(
           productDetails.length, (index) => productDetails[index].toMap()),
     };
@@ -70,6 +77,7 @@ class OrderModel {
     deliveryCharge: map[orderFieldDeliveryCharge],
     orderDate: DateModel.fromMap(map[orderFieldOrderDate]),
     deliveryAddress: AddressModel.fromMap(map[orderFieldDeliveryAddress]),
+    contactInfo: ContactInfoModel.fromMap(map[orderFieldContactInfo] ?? {}),
     productDetails: (map[orderFieldProductDetails] as List)
         .map((e) => CartModel.fromMap(e))
         .toList(),
