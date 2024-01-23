@@ -42,6 +42,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
         children: [
           buildHeader('Product Info'),
           buildProductInfoSection(),
+          buildHeader('Customer Info'),
+          buildCustomerInfoSection(),
+          buildHeader('Delivery Address'),
+          buildDeliveryAddressSection(),
           buildHeader('Order Summary'),
           buildOrderSummarySection(),
           buildHeader('Order Status'),
@@ -73,6 +77,50 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         Text('${cartModel.quantity} x ${cartModel.salePrice}'),
                   ))
               .toList(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCustomerInfoSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('Name'),
+              trailing: Text(orderModel.contactInfo.name ?? ''),
+            ),
+            ListTile(
+              title: const Text('Phone'),
+              trailing: Text(orderModel.contactInfo.phoneNumber ?? ''),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildDeliveryAddressSection() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            ListTile(
+              title: const Text('Address'),
+              trailing: Text(orderModel.deliveryAddress.address ?? ''),
+            ),
+            ListTile(
+              title: const Text('City'),
+              trailing: Text(orderModel.deliveryAddress.city ?? ''),
+            ),
+            ListTile(
+              title: const Text('Zip Code'),
+              trailing: Text(orderModel.deliveryAddress.zipcode ?? ''),
+            ),
+          ],
         ),
       ),
     );
