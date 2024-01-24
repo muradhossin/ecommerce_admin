@@ -1,4 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/components/custom_button.dart';
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
@@ -53,6 +55,23 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
           buildOrderSummarySection(),
           buildHeader('Order Status'),
           buildOrderStatusSection(),
+
+          const SizedBox(height: Dimensions.paddingExtraSmall,),
+          CustomButton(
+            textColor: orderModel.orderStatus == orderStatusGroupValue ? context.theme.textTheme.bodyLarge!.color : context.theme.cardColor,
+            text: 'Update',
+            onPressed: orderModel.orderStatus == orderStatusGroupValue ? null : (){
+              EasyLoading.show(status: "Updating Status");
+              orderProvider.updateOrderStatus(orderModel.orderId, orderStatusGroupValue).then((value) {
+                EasyLoading.dismiss();
+                showMsg(context, "Updated");
+              }).catchError((error){
+                EasyLoading.dismiss();
+                showMsg(context, "Failed to update");
+              });
+            },
+          ),
+
         ],
       ),
     );
@@ -251,19 +270,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 ),
                 const Text(OrderStatus.returned),
               ],
-            ),
-            ElevatedButton(
-              onPressed: orderModel.orderStatus == orderStatusGroupValue ? null : (){
-                EasyLoading.show(status: "Updating Status");
-                orderProvider.updateOrderStatus(orderModel.orderId, orderStatusGroupValue).then((value) {
-                  EasyLoading.dismiss();
-                  showMsg(context, "Updated");
-                }).catchError((error){
-                  EasyLoading.dismiss();
-                  showMsg(context, "Failed to update");
-                });
-              },
-              child: const Text('Update'),
             ),
           ],
         ),

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final Function onPressed;
+  final Function? onPressed;
   final Color? color;
   final double? width;
   final double borderRadius;
@@ -30,7 +30,7 @@ class CustomButton extends StatelessWidget {
     return Container(
       width: width ?? double.infinity,
       child: ElevatedButton(
-        onPressed: () => onPressed(),
+        onPressed: onPressed as void Function()?,
         style: ElevatedButton.styleFrom(
           backgroundColor: color ?? Theme.of(context).primaryColor,
           padding: padding ?? const EdgeInsets.symmetric(vertical: Dimensions.paddingSmall, horizontal: Dimensions.paddingSmall),
