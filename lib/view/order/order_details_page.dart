@@ -1,4 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
@@ -6,6 +8,7 @@ import 'package:ecommerce_admin/core/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailsPage extends StatefulWidget {
   static const String routeName = '/order_details';
@@ -93,8 +96,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               trailing: Text(orderModel.contactInfo.name ?? ''),
             ),
             ListTile(
+              onTap: () {
+                try {
+                  launchUrl(
+                    Uri(
+                      scheme: 'tel',
+                      path: orderModel.contactInfo.phoneNumber ?? '',
+                    ),
+                  );
+                } catch (e) {
+                  showMsg(context, 'Failed to open phone app',);
+                }
+
+              },
               title: const Text('Phone'),
-              trailing: Text(orderModel.contactInfo.phoneNumber ?? ''),
+              trailing: Text(orderModel.contactInfo.phoneNumber ?? '', style: const TextStyle(decoration: TextDecoration.underline)),
             ),
           ],
         ),
