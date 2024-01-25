@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
-import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/view/category/models/category_model.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/order/models/date_model.dart';
@@ -18,7 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({Key? key}) : super(key: key);
+  const AddProductPage({super.key});
   static const String routeName = '/addproductpage';
 
   @override
@@ -399,8 +397,8 @@ class _AddProductPageState extends State<AddProductPage> {
 
       }catch(error){
         EasyLoading.dismiss();
-        showMsg(context, "Could not save. Please check your connection");
-        throw error;
+       if(mounted) showMsg(context, "Could not save. Please check your connection");
+        if(mounted) rethrow;
       }
 
     }

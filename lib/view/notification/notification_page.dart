@@ -1,6 +1,5 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
-import 'package:ecommerce_admin/view/order/order_details_page.dart';
 import 'package:ecommerce_admin/view/order/order_page.dart';
 import 'package:ecommerce_admin/view/product/product_details_page.dart';
 import 'package:ecommerce_admin/view/user/user_list_page.dart';
@@ -12,7 +11,7 @@ import 'package:provider/provider.dart';
 class NotificationPage extends StatelessWidget {
   static const String routeName = '/notification';
 
-  const NotificationPage({Key? key}) : super(key: key);
+  const NotificationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,7 @@ class NotificationPage extends StatelessWidget {
     switch (notification.type){
       case NotificationType.user:
         routeName = UserListPage.routeName;
-        id = notification.userModel!.userId!;
+        id = notification.userModel!.userId;
         break;
       case NotificationType.comment:
         routeName = ProductDetailsPage.routeName;

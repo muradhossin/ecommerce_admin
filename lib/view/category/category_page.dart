@@ -2,7 +2,6 @@ import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
-import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,7 @@ import 'package:provider/provider.dart';
 import '../../core/utils/widget_functions.dart';
 
 class CategoryPage extends StatelessWidget {
-  const CategoryPage({Key? key}) : super(key: key);
+  const CategoryPage({super.key});
   static const String routeName = '/categorypage';
 
   @override

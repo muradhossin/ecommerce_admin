@@ -8,7 +8,7 @@ import '../../core/constants/constants.dart';
 import 'order_details_page.dart';
 
 class OrderPage extends StatelessWidget {
-  const OrderPage({Key? key}) : super(key: key);
+  const OrderPage({super.key});
   static const String routeName = '/orderpage';
   @override
   Widget build(BuildContext context) {

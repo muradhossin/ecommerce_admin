@@ -5,7 +5,7 @@ import 'package:ecommerce_admin/view/dashboard/dashboard_page.dart';
 import 'package:flutter/material.dart';
 
 class LauncherPage extends StatelessWidget {
-  const LauncherPage({Key? key}) : super(key: key);
+  const LauncherPage({super.key});
   static const String routeName = '/launcherpage';
   @override
   Widget build(BuildContext context) {

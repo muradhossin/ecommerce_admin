@@ -47,7 +47,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
                 padding: const EdgeInsets.all(Dimensions.paddingMedium),
                 child: Column(mainAxisSize: MainAxisSize.min, children: [
 
-                  Text('Edit Product', style: TextStyle().semiBold.copyWith(fontSize: Dimensions.fontSizeSmall),),
+                  Text('Edit Product', style: const TextStyle().semiBold.copyWith(fontSize: Dimensions.fontSizeSmall),),
                   const SizedBox(height: Dimensions.paddingMedium),
 
                   CustomTextFormField(

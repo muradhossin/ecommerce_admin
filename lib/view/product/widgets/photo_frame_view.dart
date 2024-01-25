@@ -7,11 +7,11 @@ class PhotoFrameView extends StatefulWidget {
   final VoidCallback onImagePressed;
 
   const PhotoFrameView({
-    Key? key,
+    super.key,
     required this.child,
     required this.url,
     required this.onImagePressed,
-  }) : super(key: key);
+  });
 
   @override
   State<PhotoFrameView> createState() => _PhotoFrameViewState();

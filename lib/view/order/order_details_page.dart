@@ -2,7 +2,6 @@ import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/components/custom_button.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
-import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
@@ -16,8 +15,8 @@ class OrderDetailsPage extends StatefulWidget {
   static const String routeName = '/order_details';
 
   const OrderDetailsPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<OrderDetailsPage> createState() => _OrderDetailsPageState();
@@ -32,7 +31,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   @override
   void didChangeDependencies() {
     orderProvider = Provider.of<OrderProvider>(context);
-    orderId = ModalRoute.of(context)!.settings!.arguments as String;
+    orderId = ModalRoute.of(context)!.settings.arguments as String;
     orderModel = orderProvider.getOrderById(orderId);
     orderStatusGroupValue = orderModel.orderStatus;
     super.didChangeDependencies();
@@ -173,7 +172,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
             ),
             ListTile(
               title: const Text('VAT'),
-              trailing: Text('${orderModel.VAT}%'),
+              trailing: Text('${orderModel.vat}%'),
             ),
             ListTile(
               title: const Text('Delivery Charge'),

@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
-import 'package:ecommerce_admin/view/product/models/image_model.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
-import 'package:ecommerce_admin/view/notification/notification_page.dart';
 import 'package:ecommerce_admin/view/product/product_repurchase_page.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
@@ -18,7 +16,7 @@ import '../category/models/comment_model.dart';
 import 'provider/product_provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
-  ProductDetailsPage({Key? key}) : super(key: key);
+  const ProductDetailsPage({super.key});
   static const String routeName = '/productdetailspage';
 
   @override
@@ -203,19 +201,19 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
           ListTile(
             title: const Text('Short Description'),
-            subtitle: Text("${productModel.shortDescription ?? 'N/A'}"),
+            subtitle: Text(productModel.shortDescription ?? 'N/A'),
           ),
 
           ListTile(
-            title: Text('Long Description'),
-            subtitle: Text("${productModel.longDescription ?? 'N/A'}"),
+            title: const Text('Long Description'),
+            subtitle: Text(productModel.longDescription ?? 'N/A'),
           ),
 
           Padding(
             padding: const EdgeInsets.all(Dimensions.paddingMedium),
             child: Text(
               'All Comments',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
           FutureBuilder<List<CommentModel>>(
@@ -357,7 +355,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       _addImage(i);
                       await productProvider.deleteImage(url);
                     } catch (error) {
-                      showMsg(context, 'Failed to Update');
+                      if(mounted) showMsg(context, 'Failed to Update');
                     }
                   },
                   child: const Text('CHANGE'),
@@ -380,7 +378,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       if (mounted) showMsg(context, 'Deleted');
                     } catch (error) {
                       EasyLoading.dismiss();
-                      showMsg(context, 'Failed to Delete');
+                      if(mounted) showMsg(context, 'Failed to Delete');
                     }
                   },
                   child: const Text('DELETE'),
@@ -393,7 +391,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     EasyLoading.show(status: 'Please wait');
     await productProvider.approveComment(productModel.productId!, commentModel);
     EasyLoading.dismiss();
-    showMsg(context, 'Comment Approved');
+    if(mounted) showMsg(context, 'Comment Approved');
     setState(() {
 
     });

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
@@ -11,7 +10,7 @@ import 'models/purchase_model.dart';
 import '../../core/utils/helper_functions.dart';
 
 class ProductRepurchasePage extends StatefulWidget {
-  const ProductRepurchasePage({Key? key}) : super(key: key);
+  const ProductRepurchasePage({super.key});
   static const String routeName = '/productrepurchasepage';
 
   @override
@@ -43,7 +42,7 @@ class _ProductRepurchasePageState extends State<ProductRepurchasePage> {
             children: [
               Text(
                 productModel.productName,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(
                 height: 50,

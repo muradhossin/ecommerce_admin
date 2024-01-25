@@ -9,7 +9,7 @@ import '../category/models/category_model.dart';
 import 'provider/product_provider.dart';
 
 class ViewProductPage extends StatefulWidget {
-  const ViewProductPage({Key? key}) : super(key: key);
+  const ViewProductPage({super.key});
   static const String routeName = '/viewproductpage';
 
   @override

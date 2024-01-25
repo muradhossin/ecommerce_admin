@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserListPage extends StatelessWidget {
-  const UserListPage({Key? key}) : super(key: key);
+  const UserListPage({super.key});
   static const String routeName = '/userlistpage';
 
   @override

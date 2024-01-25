@@ -1,5 +1,4 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'address_model.dart';
 const String collectionUser='User';

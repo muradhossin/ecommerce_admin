@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
-import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/dashboard/widgets/badge_view.dart';
@@ -15,12 +14,13 @@ import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key? key}) : super(key: key);
+  const DashboardPage({super.key});
   static const String routeName = '/dashboardpage';
 
   @override
@@ -83,7 +83,7 @@ class DashboardPage extends StatelessWidget {
   }
 
   void _sendNotification() async{
-    final url = 'https://fcm.googleapis.com/fcm/send';
+    const url = 'https://fcm.googleapis.com/fcm/send';
     final header = {
       'Content-Type' : 'application/json',
       'Authorization' : 'key=$serverKey',
@@ -102,9 +102,13 @@ class DashboardPage extends StatelessWidget {
 
     try{
       final response = await http.post(Uri.parse(url), headers: header, body: json.encode(body));
-      print('STATUS CODE: ${response.statusCode}');
+      if (kDebugMode) {
+        print('STATUS CODE: ${response.statusCode}');
+      }
     }catch(error){
-      print(error.toString());
+      if (kDebugMode) {
+        print(error.toString());
+      }
     }
 
   }

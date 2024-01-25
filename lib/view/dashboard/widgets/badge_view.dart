@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BadgeView extends StatelessWidget {
   final int count;
 
-  const BadgeView({Key? key, required this.count}) : super(key: key);
+  const BadgeView({super.key, required this.count});
 
   @override
   Widget build(BuildContext context) {

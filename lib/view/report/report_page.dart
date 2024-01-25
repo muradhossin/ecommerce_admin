@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key}) : super(key: key);
+  const ReportPage({super.key});
   static const String routeName = '/reportpage';
 
   @override
@@ -38,7 +38,7 @@ class _ReportPageState extends State<ReportPage> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Orders',
-              style: Theme.of(context).textTheme.headline6,
+              style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
           const Divider(
@@ -67,7 +67,7 @@ class _ReportPageState extends State<ReportPage> {
                                   .getOrderByDate(DateTime.now().day,
                                       DateTime.now().month, DateTime.now().year)
                                   .toString(),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -85,7 +85,7 @@ class _ReportPageState extends State<ReportPage> {
                                   .getTotalItemsSoldByDate(DateTime.now().day,
                                   DateTime.now().month, DateTime.now().year)
                                   .toString(),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -118,7 +118,7 @@ class _ReportPageState extends State<ReportPage> {
                                   .getOrderByDate(DateTime.now().day,
                                   DateTime.now().month, DateTime.now().year)
                                   .toString(),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -136,7 +136,7 @@ class _ReportPageState extends State<ReportPage> {
                                   .getTotalItemsSoldByDate(DateTime.now().day,
                                   DateTime.now().month, DateTime.now().year)
                                   .toString(),
-                              style: TextStyle(fontSize: 20),
+                              style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
@@ -159,7 +159,7 @@ class _ReportPageState extends State<ReportPage> {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             title,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
         const Divider(
