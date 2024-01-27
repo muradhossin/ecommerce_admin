@@ -1,4 +1,9 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/components/custom_button.dart';
+import 'package:ecommerce_admin/core/components/custom_text_form_field.dart';
+import 'package:ecommerce_admin/core/constants/app_constants.dart';
+import 'package:ecommerce_admin/core/constants/constants.dart';
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/view/order/models/order_constant_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
@@ -26,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
     orderProvider = Provider.of<OrderProvider>(context);
     _discountController.text = orderProvider.orderConstantModel.discount.toString();
     _vatController.text = orderProvider.orderConstantModel.vat.toString();
-    _deliveryChargeController.text = orderProvider.orderConstantModel.deliveryCharge.toString();
+    _deliveryChargeController.text = '${orderProvider.orderConstantModel.deliveryCharge} $currencySymbol';
     super.didChangeDependencies();
   }
   @override
@@ -49,14 +54,12 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                TextFormField(
+
+                CustomTextFormField(
                   controller: _discountController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Discount %',
-                    prefixIcon: Icon(Icons.discount),
-                    filled: true,
-                  ),
+                  labelText: 'Discount %',
+                  prefixIcon: const Icon(Icons.discount),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field must not be empty';
@@ -64,17 +67,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     return null;
                   },
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
+                const SizedBox(height: Dimensions.paddingMedium,),
+
+                CustomTextFormField(
                   controller: _vatController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Vat %',
-                    prefixIcon: Icon(Icons.discount),
-                    filled: true,
-                  ),
+                  labelText: 'VAT %',
+                  prefixIcon: const Icon(Icons.price_change),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field must not be empty';
@@ -82,17 +81,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     return null;
                   },
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                TextFormField(
+                const SizedBox(height: Dimensions.paddingMedium,),
+
+                CustomTextFormField(
                   controller: _deliveryChargeController,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: 'Delivery Charge',
-                    prefixIcon: Icon(Icons.discount),
-                    filled: true,
-                  ),
+                  labelText: 'Delivery Charge',
+                  prefixIcon: const Icon(Icons.delivery_dining),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'This field must not be empty';
@@ -100,14 +95,13 @@ class _SettingsPageState extends State<SettingsPage> {
                     return null;
                   },
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
+                const SizedBox(height: Dimensions.paddingLarge,),
+
+                CustomButton(
                   onPressed: (){
                     _saveInfo();
                   },
-                  child: const Text('Update'),
+                  text: 'Save',
                 ),
               ],
             ),
