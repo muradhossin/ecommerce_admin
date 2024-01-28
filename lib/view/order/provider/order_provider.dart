@@ -59,5 +59,19 @@ class OrderProvider extends ChangeNotifier{
     return total;
   }
 
+  num getTotalItemsSold(){
+    num total = 0;
+    for(final order in orderList){
+      for(final model in order.productDetails){
+        total += model.quantity;
+      }
+    }
+    return total;
+  }
+
+
+
+
+
 
 }

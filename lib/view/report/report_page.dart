@@ -101,7 +101,7 @@ class _ReportPageState extends State<ReportPage> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: [
-                  headerSection('Last 7 Days'),
+                  headerSection('All time'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -115,8 +115,7 @@ class _ReportPageState extends State<ReportPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               orderProvider
-                                  .getOrderByDate(DateTime.now().day,
-                                  DateTime.now().month, DateTime.now().year)
+                                  .orderList.length
                                   .toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
@@ -133,8 +132,7 @@ class _ReportPageState extends State<ReportPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               orderProvider
-                                  .getTotalItemsSoldByDate(DateTime.now().day,
-                                  DateTime.now().month, DateTime.now().year)
+                                  .getTotalItemsSold()
                                   .toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
