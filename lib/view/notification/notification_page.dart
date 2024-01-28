@@ -1,5 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
+import 'package:ecommerce_admin/view/order/order_details_page.dart';
 import 'package:ecommerce_admin/view/order/order_page.dart';
 import 'package:ecommerce_admin/view/product/product_details_page.dart';
 import 'package:ecommerce_admin/view/user/user_list_page.dart';
@@ -52,7 +53,7 @@ class NotificationPage extends StatelessWidget {
         id = notification.commentModel!.productId;
         break;
       case NotificationType.order:
-        routeName = OrderPage.routeName;
+        routeName = OrderDetailsPage.routeName;
         id = notification.orderModel!.orderId;
     }
     provider.updateNotificationStatus(notification.id);
