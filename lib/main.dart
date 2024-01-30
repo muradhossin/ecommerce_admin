@@ -1,5 +1,6 @@
 import 'package:ecommerce_admin/core/themes/dark_theme.dart';
 import 'package:ecommerce_admin/core/themes/light_theme.dart';
+import 'package:ecommerce_admin/core/utils/notification_helper.dart';
 import 'package:ecommerce_admin/view/auth/login_page.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/add_product_page.dart';
@@ -20,18 +21,36 @@ import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
 
 
+  debugPrint("Handling a background message: ${message.toMap()}");
+}
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  final fcmToken = await FirebaseMessaging.instance.getToken();
+  debugPrint('FCM TOKEN: $fcmToken');
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  NotificationHelper notificationHelper = NotificationHelper();
+  await notificationHelper.initNotifications();
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider()),

@@ -13,6 +13,6 @@ abstract class OrderStatus{
 
 abstract class NotificationType{
   static const String comment = 'New Comment';
-  static const String order = 'New Order';
+  static const String order = 'order';
   static const String user = 'New User';
 }
