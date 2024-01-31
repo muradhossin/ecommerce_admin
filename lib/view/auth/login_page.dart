@@ -167,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
         final status = await AuthService.loginAdmin(email, password);
         EasyLoading.dismiss();
         if(status){
-          FirebaseMessaging.instance.subscribeToTopic(NotificationTopic.order);
+          await FirebaseMessaging.instance.subscribeToTopic(NotificationTopic.order);
           if(mounted){
             Navigator.pushReplacementNamed(context, LauncherPage.routeName);
           }

@@ -16,7 +16,7 @@ class NotificationHelper {
   }
 
   Future<void> initNotifications() async {
-    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('app_icon');
+    const AndroidInitializationSettings androidInitializationSettings = AndroidInitializationSettings('notification_icon');
     const DarwinInitializationSettings initializationSettingsDarwin = DarwinInitializationSettings();
 
     const InitializationSettings initializationSettings = InitializationSettings(android: androidInitializationSettings, iOS: initializationSettingsDarwin,);
