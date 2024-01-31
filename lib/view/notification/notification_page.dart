@@ -1,7 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
 import 'package:ecommerce_admin/view/order/order_details_page.dart';
-import 'package:ecommerce_admin/view/order/order_page.dart';
 import 'package:ecommerce_admin/view/product/product_details_page.dart';
 import 'package:ecommerce_admin/view/user/user_list_page.dart';
 import 'package:ecommerce_admin/view/notification/provider/notification_provider.dart';

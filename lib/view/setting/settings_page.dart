@@ -1,7 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/components/custom_button.dart';
 import 'package:ecommerce_admin/core/components/custom_text_form_field.dart';
-import 'package:ecommerce_admin/core/constants/app_constants.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/view/order/models/order_constant_model.dart';

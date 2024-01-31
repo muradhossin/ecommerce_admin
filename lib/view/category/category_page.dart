@@ -77,7 +77,7 @@ class CategoryPage extends StatelessWidget {
                               onPressed: () async{
                                 EasyLoading.show(status: 'Deleting...');
                                 await Provider.of<CategoryProvider>(context, listen: false).deleteCategory(catModel.categoryId);
-                                Navigator.pop(context);
+                                if(context.mounted) Navigator.pop(context);
                                 EasyLoading.dismiss();
                               },
                               child: const Text('Delete'),

@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         DashboardPage.routeName: (_) => const DashboardPage(),
         AddProductPage.routeName: (_) => const AddProductPage(),
         ViewProductPage.routeName: (_) => const ViewProductPage(),
-        ProductDetailsPage.routeName: (_) => ProductDetailsPage(),
+        ProductDetailsPage.routeName: (_) => const ProductDetailsPage(),
         CategoryPage.routeName: (_) => const CategoryPage(),
         OrderPage.routeName: (_) => const OrderPage(),
         ReportPage.routeName: (_) => const ReportPage(),
