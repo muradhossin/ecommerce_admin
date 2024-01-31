@@ -1,5 +1,6 @@
 import 'package:ecommerce_admin/core/components/custom_image.dart';
 import 'package:ecommerce_admin/core/constants/app_constants.dart';
+import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/core/extensions/image_path.dart';
@@ -7,6 +8,7 @@ import 'package:ecommerce_admin/core/extensions/style.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/dashboard/launcher_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -165,6 +167,7 @@ class _LoginPageState extends State<LoginPage> {
         final status = await AuthService.loginAdmin(email, password);
         EasyLoading.dismiss();
         if(status){
+          FirebaseMessaging.instance.subscribeToTopic(NotificationTopic.order);
           if(mounted){
             Navigator.pushReplacementNamed(context, LauncherPage.routeName);
           }

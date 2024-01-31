@@ -34,7 +34,6 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     setupInteractedMessage();
     notificationPermission();
-    // TODO: implement initState
     super.initState();
   }
 

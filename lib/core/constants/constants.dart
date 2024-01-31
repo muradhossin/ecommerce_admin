@@ -16,3 +16,9 @@ abstract class NotificationType{
   static const String order = 'order';
   static const String user = 'New User';
 }
+
+abstract class NotificationTopic{
+  static const String order = 'order';
+  static const String promo = 'promo';
+  static const String user = 'user';
+}
