@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:ecommerce_admin/core/constants/constants.dart';
+import 'package:ecommerce_admin/main.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_body.dart';
+import 'package:ecommerce_admin/view/order/order_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -82,7 +84,7 @@ class NotificationHelper {
       debugPrint('notification payload: ${jsonDecode(payload.payload!)}}');
       
       if(notificationModel.type == NotificationType.order){
-        // navigatorKey.currentState!.pushNamed(AppRouter.getOrderRoute());
+        navigatorKey.currentState!.pushNamed(OrderDetailsPage.routeName, arguments: notificationModel.id);
       }
     }
   }
