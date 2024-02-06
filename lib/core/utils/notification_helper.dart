@@ -109,9 +109,10 @@ class NotificationHelper {
 
   static Future<void> handleBackgroundNotification(RemoteMessage remoteMessage) async{
     debugPrint('onMessageOpenedApp: ${remoteMessage.toMap()}');
+    NotificationBody notificationModel = NotificationBody.fromMap(remoteMessage.data);
 
     if(remoteMessage.data['type'] == NotificationType.order){
-      // navigatorKey.currentState!.pushNamed(AppRouter.getOrderRoute());
+      navigatorKey.currentState!.pushNamed(OrderDetailsPage.routeName, arguments: notificationModel.id);
     }else if(remoteMessage.data['key'] == 'promo'){
       // navigatorKey.currentState!.pushNamed(PromoCodePage.routeName, arguments: remoteMessage.data['value']);
     }else if(remoteMessage.data['key'] == 'user'){
