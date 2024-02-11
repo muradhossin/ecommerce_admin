@@ -83,9 +83,7 @@ class NotificationHelper {
       debugPrint('----------> notificationModel: ${notificationModel.toMap()}');
       debugPrint('notification payload: ${jsonDecode(payload.payload!)}}');
       
-      if(notificationModel.type == NotificationType.order){
-        navigatorKey.currentState!.pushNamed(OrderDetailsPage.routeName, arguments: notificationModel.id);
-      }
+      navigateToRoute(jsonDecode(payload.payload!));
     }
   }
 
@@ -109,15 +107,7 @@ class NotificationHelper {
 
   static Future<void> handleBackgroundNotification(RemoteMessage remoteMessage) async{
     debugPrint('onMessageOpenedApp: ${remoteMessage.toMap()}');
-    NotificationBody notificationModel = NotificationBody.fromMap(remoteMessage.data);
-
-    if(remoteMessage.data['type'] == NotificationType.order){
-      navigatorKey.currentState!.pushNamed(OrderDetailsPage.routeName, arguments: notificationModel.id);
-    }else if(remoteMessage.data['key'] == 'promo'){
-      // navigatorKey.currentState!.pushNamed(PromoCodePage.routeName, arguments: remoteMessage.data['value']);
-    }else if(remoteMessage.data['key'] == 'user'){
-      // navigatorKey.currentState!.pushNamed(AppRouter.getUserProfileRoute());
-    }
+    navigateToRoute(remoteMessage);
 
   }
 
@@ -140,6 +130,18 @@ class NotificationHelper {
       sound: true,
     );
     debugPrint('User granted permission: ${settings.authorizationStatus}');
+  }
+
+  static Future<void> navigateToRoute(RemoteMessage remoteMessage)async {
+    NotificationBody? notificationModel = NotificationBody.fromMap(remoteMessage.data);
+
+    if(notificationModel.type == NotificationType.order){
+      navigatorKey.currentState!.pushNamed(OrderDetailsPage.routeName, arguments: notificationModel.id);
+    }else if(notificationModel.key == NotificationTopic.promo){
+      // navigatorKey.currentState!.pushNamed(PromoCodePage.routeName, arguments: remoteMessage.data['value']);
+    }else if(notificationModel.key == NotificationTopic.user){
+      // navigatorKey.currentState!.pushNamed(AppRouter.getUserProfileRoute());
+    }
   }
 
 
