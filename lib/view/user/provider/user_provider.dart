@@ -15,4 +15,6 @@ class UserProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+
+  Future<UserModel> userFindById(String id) => UserRepository.getUserById(id);
 }

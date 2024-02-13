@@ -11,4 +11,10 @@ class UserRepository {
     final snapshot = await _db.collection(collectionUser).doc(uid).get();
     return snapshot.exists;
   }
+
+  static getUserById(String id) {
+    return _db.collection(collectionUser).doc(id).get().then((doc) {
+      return UserModel.fromMap(doc.data()!);
+    });
+  }
 }
