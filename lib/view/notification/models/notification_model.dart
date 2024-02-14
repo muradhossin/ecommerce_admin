@@ -13,15 +13,17 @@ const String notificationFieldStatus = 'status';
 const String notificationFieldComment = 'comment';
 const String notificationFieldUser = 'user';
 const String notificationFieldOrder = 'order';
+const String notificationFieldTypeData = 'typeData';
 
 class NotificationModel {
-  String id;
-  String type;
-  String message;
-  bool status;
+  String? id;
+  String? type;
+  String? message;
+  bool? status;
   CommentModel? commentModel;
   UserModel? userModel;
   OrderModel? orderModel;
+  String? typedata;
 
   NotificationModel({
     required this.id,
@@ -31,6 +33,8 @@ class NotificationModel {
     this.commentModel,
     this.userModel,
     this.orderModel,
+    this.typedata,
+
   });
 
   Map<String, dynamic> toMap() {
@@ -42,6 +46,7 @@ class NotificationModel {
       notificationFieldComment: commentModel?.toMap(),
       notificationFieldUser: userModel?.toMap(),
       notificationFieldOrder: orderModel?.toMap(),
+      notificationFieldTypeData: typedata,
     };
   }
 
@@ -50,7 +55,9 @@ class NotificationModel {
         id: map[notificationFieldId],
         type: map[notificationFieldType],
         message: map[notificationFieldMessage],
-        status: map[notificationFieldStatus],
+        status: map[notificationFieldStatus] is bool
+            ? map[notificationFieldStatus] as bool
+            : map[notificationFieldStatus] == 'true',
         commentModel: map[notificationFieldComment] == null
             ? null
             : CommentModel.fromMap(map[notificationFieldComment]),
@@ -60,5 +67,6 @@ class NotificationModel {
         orderModel: map[notificationFieldOrder] == null
             ? null
             : OrderModel.fromMap(map[notificationFieldOrder]),
+        typedata: map[notificationFieldTypeData],
       );
 }

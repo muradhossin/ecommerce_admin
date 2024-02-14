@@ -21,7 +21,7 @@ class NotificationProvider extends ChangeNotifier {
   int get totalUnreadMessage{
     int total = 0;
     for (final n in notificationList){
-      if(!n.status){
+      if(!n.status!){
         total += 1;
       }
     }

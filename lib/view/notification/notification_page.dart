@@ -29,9 +29,9 @@ class NotificationPage extends StatelessWidget {
                       onTap: (){
                         _navigate(context, notification, provider);
                       },
-                      tileColor: notification.status ? null : Colors.grey.withOpacity(.5),
-                      title: Text(notification.type),
-                      subtitle: Text(notification.message),
+                      tileColor: notification.status! ? null : Colors.grey.withOpacity(.5),
+                      title: Text(notification.type!),
+                      subtitle: Text(notification.message!),
                     ),
                   );
                 },),
@@ -55,7 +55,7 @@ class NotificationPage extends StatelessWidget {
         routeName = OrderDetailsPage.routeName;
         id = notification.orderModel!.orderId;
     }
-    provider.updateNotificationStatus(notification.id);
+    provider.updateNotificationStatus(notification.id!);
     Navigator.pushNamed(context, routeName, arguments: id);
   }
 }

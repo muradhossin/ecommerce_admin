@@ -13,4 +13,6 @@ class NotificationRepository {
         .doc(id)
         .update({notificationFieldStatus: true});
   }
+
+
 }

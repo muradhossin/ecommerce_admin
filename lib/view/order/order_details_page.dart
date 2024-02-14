@@ -64,6 +64,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               orderProvider.updateOrderStatus(orderModel.orderId, orderStatusGroupValue).then((value) {
                 EasyLoading.dismiss();
                 showMsg(context, "Updated");
+
               }).catchError((error){
                 EasyLoading.dismiss();
                 showMsg(context, "Failed to update");
