@@ -24,6 +24,8 @@ class NotificationModel {
   UserModel? userModel;
   OrderModel? orderModel;
   String? typedata;
+  String? title;
+  String? body;
 
   NotificationModel({
     required this.id,
@@ -34,6 +36,8 @@ class NotificationModel {
     this.userModel,
     this.orderModel,
     this.typedata,
+    this.title,
+    this.body,
 
   });
 

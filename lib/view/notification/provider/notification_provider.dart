@@ -27,4 +27,7 @@ class NotificationProvider extends ChangeNotifier {
     }
     return total;
   }
+
+  Future<void> sendTopicNotification(NotificationModel notificationModel, String topic) =>
+      NotificationRepository.sendTopicNotification(notificationModel, topic);
 }
