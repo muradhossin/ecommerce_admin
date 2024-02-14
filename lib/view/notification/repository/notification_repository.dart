@@ -6,6 +6,8 @@ import 'package:ecommerce_admin/view/notification/models/notification_model.dart
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/notification_body.dart';
+
 class NotificationRepository {
   static final _db = FirebaseFirestore.instance;
 
@@ -19,7 +21,7 @@ class NotificationRepository {
         .update({notificationFieldStatus: true});
   }
 
-  static Future<void> sendTopicNotification(NotificationModel notificationModel, String topic) async {
+  static Future<void> sendTopicNotification(NotificationBody notificationModel, String topic) async {
     final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
     final headers = {
       'Content-Type': 'application/json',
@@ -32,8 +34,8 @@ class NotificationRepository {
         'title': notificationModel.title,
         'body': notificationModel.body,
         'type' : notificationModel.type,
-        'id' : '${notificationModel.orderModel?.orderId}',
-        'type_data' : '${notificationModel.typedata}'
+        'id' : '${notificationModel.id}',
+        'type_data' : '${notificationModel.typeData}'
       },
       'data': notificationModel.toMap(),
     });
@@ -47,7 +49,7 @@ class NotificationRepository {
     }
   }
 
-  static Future<void> sendDeviceNotification(NotificationModel notificationModel, String fcmToken) async {
+  static Future<void> sendDeviceNotification(NotificationBody notificationModel, String fcmToken) async {
     final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
     final headers = {
       'Content-Type': 'application/json',
@@ -60,8 +62,8 @@ class NotificationRepository {
         'title': notificationModel.title,
         'body': notificationModel.body,
         'type' : notificationModel.type,
-        'id' : '${notificationModel.orderModel?.orderId}',
-        'type_data' : '${notificationModel.typedata}'
+        'id' : '${notificationModel.id}',
+        'type_data' : '${notificationModel.typeData}'
       },
       'data': notificationModel.toMap(),
     });

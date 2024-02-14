@@ -2,10 +2,13 @@ import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/components/custom_button.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
+import 'package:ecommerce_admin/view/notification/provider/notification_provider.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
+import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -64,7 +67,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               orderProvider.updateOrderStatus(orderModel.orderId, orderStatusGroupValue).then((value) {
                 EasyLoading.dismiss();
                 showMsg(context, "Updated");
+                Provider.of<UserProvider>(context).userFindById(orderModel.userId).then((value) {
+                  if(value.fcmToken != null){
+                    Provider.of<NotificationProvider>(context).sendDeviceNotification(
+                    NotificationModel(
+                      id: orderId,
+                      type: NotificationType.order,
+                      message: 'Your order ID: $orderId is ${orderStatusGroupValue.toLowerCase()}',
+                      title: 'Order Status Updated',
+                      body: 'Your order ID: $orderId is ${orderStatusGroupValue.toLowerCase()}',
 
+                    ),
+                    value.fcmToken!
+                    );
+                  }
+                });
               }).catchError((error){
                 EasyLoading.dismiss();
                 showMsg(context, "Failed to update");
