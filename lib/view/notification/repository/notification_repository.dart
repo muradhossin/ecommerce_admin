@@ -47,6 +47,36 @@ class NotificationRepository {
     }
   }
 
+  static Future<void> sendDeviceNotification(NotificationModel notificationModel, String fcmToken) async {
+    final url = Uri.parse('https://fcm.googleapis.com/fcm/send');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'key=${AppConstants.serverKey}',
+    };
+
+    final body = jsonEncode({
+      'to': fcmToken,
+      'notification': {
+        'title': notificationModel.title,
+        'body': notificationModel.body,
+        'type' : notificationModel.type,
+        'id' : '${notificationModel.orderModel?.orderId}',
+        'type_data' : '${notificationModel.typedata}'
+      },
+      'data': notificationModel.toMap(),
+    });
+
+    final response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      debugPrint('Notification sent successfully');
+    } else {
+      debugPrint('Failed to send notification: ${response.body}');
+    }
+  }
+
+
+
 
 
 }
