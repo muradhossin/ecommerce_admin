@@ -2,6 +2,7 @@ import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/components/custom_button.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/view/notification/models/notification_body.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
 import 'package:ecommerce_admin/view/notification/provider/notification_provider.dart';
 import 'package:ecommerce_admin/view/order/models/order_model.dart';
@@ -70,13 +71,12 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                 Provider.of<UserProvider>(context).userFindById(orderModel.userId).then((value) {
                   if(value.fcmToken != null){
                     Provider.of<NotificationProvider>(context).sendDeviceNotification(
-                    NotificationModel(
+                    NotificationBody(
                       id: orderId,
                       type: NotificationType.order,
-                      message: 'Your order ID: $orderId is ${orderStatusGroupValue.toLowerCase()}',
                       title: 'Order Status Updated',
                       body: 'Your order ID: $orderId is ${orderStatusGroupValue.toLowerCase()}',
-
+                      typeData: orderStatusGroupValue,
                     ),
                     value.fcmToken!
                     );

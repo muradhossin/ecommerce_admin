@@ -1,4 +1,5 @@
 
+import 'package:ecommerce_admin/view/notification/models/notification_body.dart';
 import 'package:ecommerce_admin/view/notification/repository/notification_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -28,9 +29,9 @@ class NotificationProvider extends ChangeNotifier {
     return total;
   }
 
-  Future<void> sendTopicNotification(NotificationModel notificationModel, String topic) =>
+  Future<void> sendTopicNotification(NotificationBody notificationModel, String topic) =>
       NotificationRepository.sendTopicNotification(notificationModel, topic);
 
-  Future<void> sendDeviceNotification(NotificationModel notificationModel, String fcmToken) =>
+  Future<void> sendDeviceNotification(NotificationBody notificationModel, String fcmToken) =>
       NotificationRepository.sendDeviceNotification(notificationModel, fcmToken);
 }
