@@ -1,4 +1,5 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/core/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,16 @@ class OrderPage extends StatelessWidget {
               title: Text(getFormattedDate(
                   getDateTimeFromTimeStampString(order.orderDate.timestamp),
                   pattern: 'dd MMM yyyy hh:mm a')),
-              subtitle: Text(order.orderStatus),
+              subtitle: IntrinsicHeight(
+                child: Row(
+                  children: [
+                    Text('Order ID: ${order.orderId}'),
+                    const VerticalDivider(),
+                    const SizedBox(width: Dimensions.paddingExtraSmall),
+                    Text('Status: ${order.orderStatus}'),
+                  ],
+                ),
+              ),
               trailing: Text('$currencySymbol${order.grandTotal}'),
             );
           },
