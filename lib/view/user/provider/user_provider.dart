@@ -16,5 +16,8 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
-  Future<UserModel> userFindById(String id) => UserRepository.getUserById(id);
+  Future<UserModel> userFindById(String id) {
+    debugPrint('-----------------------> userId: $id');
+    return UserRepository.getUserById(id);
+  }
 }

@@ -68,9 +68,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
               orderProvider.updateOrderStatus(orderModel.orderId, orderStatusGroupValue).then((value) {
                 EasyLoading.dismiss();
                 showMsg(context, "Updated");
-                Provider.of<UserProvider>(context).userFindById(orderModel.userId).then((value) {
+                Provider.of<UserProvider>(context, listen: false).userFindById(orderModel.userId).then((value) {
+                  debugPrint('-------------->FCM Token: ${value.fcmToken}');
                   if(value.fcmToken != null){
-                    Provider.of<NotificationProvider>(context).sendDeviceNotification(
+                    Provider.of<NotificationProvider>(context, listen: false).sendDeviceNotification(
                     NotificationBody(
                       id: orderId,
                       type: NotificationType.order,
