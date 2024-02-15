@@ -29,15 +29,12 @@ class OrderPage extends StatelessWidget {
               title: Text(getFormattedDate(
                   getDateTimeFromTimeStampString(order.orderDate.timestamp),
                   pattern: 'dd MMM yyyy hh:mm a')),
-              subtitle: IntrinsicHeight(
-                child: Row(
-                  children: [
-                    Text('Order ID: ${order.orderId}'),
-                    const VerticalDivider(),
-                    const SizedBox(width: Dimensions.paddingExtraSmall),
-                    Text('Status: ${order.orderStatus}'),
-                  ],
-                ),
+              subtitle: Wrap(
+                children: [
+                  Text('Order ID: ${order.orderId}'),
+                  const SizedBox(height: 20, child: VerticalDivider()),
+                  Text('Status: ${order.orderStatus}'),
+                ],
               ),
               trailing: Text('$currencySymbol${order.grandTotal}'),
             );
