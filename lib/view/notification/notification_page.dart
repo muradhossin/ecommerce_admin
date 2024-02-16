@@ -30,7 +30,7 @@ class NotificationPage extends StatelessWidget {
                         _navigate(context, notification, provider);
                       },
                       tileColor: notification.status! ? null : Colors.grey.withOpacity(.5),
-                      title: Text(notification.type!),
+                      title: Text(notification.title ?? notification.type.toString()),
                       subtitle: Text(notification.message!),
                     ),
                   );
@@ -42,6 +42,7 @@ class NotificationPage extends StatelessWidget {
   void _navigate(BuildContext context, NotificationModel notification, NotificationProvider provider) {
     String routeName = '';
     String id = '';
+    debugPrint('notification type: ${notification.type}');
     switch (notification.type){
       case NotificationType.user:
         routeName = UserListPage.routeName;
