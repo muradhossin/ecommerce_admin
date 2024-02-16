@@ -89,12 +89,12 @@ class _DashboardPageState extends State<DashboardPage> {
             },
             icon: Icon(Icons.logout, color: context.theme.cardColor),
           ),
-          IconButton(
-            onPressed: (){
-              _sendNotification();
-            },
-            icon: Icon(Icons.send, color: context.theme.cardColor,),
-          ),
+          // IconButton(
+          //   onPressed: (){
+          //     _sendNotification();
+          //   },
+          //   icon: Icon(Icons.send, color: context.theme.cardColor,),
+          // ),
         ],
       ),
 
