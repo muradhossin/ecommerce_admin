@@ -20,6 +20,10 @@ class OrderProvider extends ChangeNotifier{
     });
   }
 
+  void sortOrderList(){
+    orderList.sort((a, b) => b.orderDate.timestamp.compareTo(a.orderDate.timestamp));
+  }
+
 
   getOrderConstants (){
     OrderRepository.getOrderConstants().listen((snapshot) {
