@@ -12,9 +12,13 @@ class NotificationProvider extends ChangeNotifier {
     NotificationRepository.getAllNotifications().listen((snapshot) {
       notificationList = List.generate(snapshot.docs.length,
           (index) => NotificationModel.fromMap(snapshot.docs[index].data()));
-      notificationList.sort((a, b) => (a.status == true ? 1 : 0).compareTo(b.status == true ? 1 : 0));
     notifyListeners();
     });
+  }
+
+  void sortNotificationList(){
+    notificationList.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+    notificationList.sort((a, b) => (a.status == true ? 1 : 0).compareTo(b.status == true ? 1 : 0));
   }
 
   Future<void> updateNotificationStatus(String notId) =>

@@ -1,4 +1,5 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/components/no_data_view.dart';
 import 'package:ecommerce_admin/view/notification/models/notification_model.dart';
 import 'package:ecommerce_admin/view/order/order_details_page.dart';
 import 'package:ecommerce_admin/view/product/product_details_page.dart';
@@ -18,23 +19,26 @@ class NotificationPage extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppbar(title: 'Notifications'),
       body: Consumer<NotificationProvider>(
-        builder: (context, provider, child) =>
-            ListView.builder(
-              itemCount: provider.notificationList.length,
-                itemBuilder: (context, index) {
-                  final notification = provider.notificationList[index];
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: ListTile(
-                      onTap: (){
-                        _navigate(context, notification, provider);
-                      },
-                      tileColor: notification.status! ? null : Colors.grey.withOpacity(.5),
-                      title: Text(notification.title ?? notification.type.toString()),
-                      subtitle: Text(notification.message!),
-                    ),
-                  );
-                },),
+        builder: (context, provider, child) {
+          provider.sortNotificationList();
+          return provider.notificationList.isNotEmpty ? ListView.builder(
+            itemCount: provider.notificationList.length,
+            itemBuilder: (context, index) {
+              final notification = provider.notificationList[index];
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: ListTile(
+                  onTap: (){
+                    _navigate(context, notification, provider);
+                  },
+                  tileColor: notification.status! ? null : Colors.grey.withOpacity(.5),
+                  title: Text(notification.title ?? notification.type.toString()),
+                  subtitle: Text(notification.message!),
+                ),
+              );
+            },)  : const Center(child: NoDataView(),);
+        }
+
       ),
     );
   }
