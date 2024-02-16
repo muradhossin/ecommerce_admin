@@ -19,7 +19,7 @@ class OrderPage extends StatelessWidget {
       body: Consumer<OrderProvider>(
         builder: (context, provider, child) {
           provider.sortOrderList();
-          return ListView.builder(
+          return provider.orderList.isNotEmpty ?  ListView.builder(
             itemCount: provider.orderList.length,
             itemBuilder: (context, index) {
               final order = provider.orderList[index];
@@ -41,7 +41,7 @@ class OrderPage extends StatelessWidget {
                 trailing: Text('$currencySymbol${order.grandTotal}'),
               );
             },
-          );
+          ) : const Center(child: Text('No orders found'));
         }
       ),
     );

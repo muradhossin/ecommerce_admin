@@ -13,18 +13,21 @@ class UserListPage extends StatelessWidget {
     return Scaffold(
       appBar: const CustomAppbar(title: 'Users'),
       body: Consumer<UserProvider>(
-        builder: (context, provider, child) => ListView.builder(
-          itemCount: provider.userList.length,
-          itemBuilder: (context, index) {
-            final user = provider.userList[index];
-            return ListTile(
-              title: Text(user.displayName ?? 'No Display Name'),
-              subtitle: Text(user.email),
-              trailing: Text(
-                  "Joint on \n${getFormattedDate(getDateTimeFromTimeStampString(user.userCreationTime!), pattern: 'dd MMM yyyy hh:mm a',)}"),
-            );
-          },
-        ),
+        builder: (context, provider, child) {
+          provider.sortUserList();
+          return provider.userList.isNotEmpty ? ListView.builder(
+            itemCount: provider.userList.length,
+            itemBuilder: (context, index) {
+              final user = provider.userList[index];
+              return ListTile(
+                title: Text(user.displayName ?? 'No Display Name'),
+                subtitle: Text(user.email),
+                trailing: Text(
+                    "Joint on \n${getFormattedDate(getDateTimeFromTimeStampString(user.userCreationTime!), pattern: 'dd MMM yyyy hh:mm a',)}"),
+              );
+            },
+          ) : const Center(child: Text('No users found'));
+        }
       ),
     );
   }

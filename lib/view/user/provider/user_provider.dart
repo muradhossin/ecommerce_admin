@@ -16,6 +16,10 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
+  void sortUserList(){
+    userList.sort((a, b) => b.userCreationTime!.compareTo(a.userCreationTime!));
+  }
+
   Future<UserModel> userFindById(String id) {
     debugPrint('-----------------------> userId: $id');
     return UserRepository.getUserById(id);
