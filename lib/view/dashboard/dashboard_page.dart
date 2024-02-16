@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ecommerce_admin/core/components/confirmation_dialog.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
@@ -78,9 +79,13 @@ class _DashboardPageState extends State<DashboardPage> {
         actions: [
           IconButton(
             onPressed: () {
-              AuthService.logout().then(
-                (value) => Navigator.pushReplacementNamed(context, LauncherPage.routeName),
-              );
+             showDialog(
+               context: context,
+               builder: (context) => ConfirmationDialog(
+                 onYes: () => AuthService.logout().then((value) => Navigator.pushReplacementNamed(context, LauncherPage.routeName),),
+                 body: 'You want to logout?',
+               ),
+             );
             },
             icon: Icon(Icons.logout, color: context.theme.cardColor),
           ),
