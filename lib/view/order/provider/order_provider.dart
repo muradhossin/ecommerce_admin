@@ -1,4 +1,6 @@
 
+import 'package:ecommerce_admin/core/constants/app_constants.dart';
+import 'package:ecommerce_admin/core/constants/constants.dart';
 import 'package:ecommerce_admin/view/order/models/order_constant_model.dart';
 import 'package:ecommerce_admin/view/order/repository/order_repository.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +74,52 @@ class OrderProvider extends ChangeNotifier{
     }
     return total;
   }
+
+  num getTodaysDelivery(){
+    num total = 0;
+    for(final order in orderList){
+      if(order.orderDate.day == DateTime.now().day && order.orderDate.month == DateTime.now().month && order.orderDate.year == DateTime.now().year){
+        if(order.orderStatus == OrderStatus.delivered){
+          total += 1;
+        }
+      }
+    }
+    return total;
+  }
+
+  num getTodaysCancelled(){
+    num total = 0;
+    for(final order in orderList){
+      if(order.orderDate.day == DateTime.now().day && order.orderDate.month == DateTime.now().month && order.orderDate.year == DateTime.now().year){
+        if(order.orderStatus == OrderStatus.cancelled){
+          total += 1;
+        }
+      }
+    }
+    return total;
+  }
+
+  num getTotalDelivered(){
+    num total = 0;
+    for(final order in orderList){
+      if(order.orderStatus == OrderStatus.delivered){
+        total += 1;
+      }
+    }
+    return total;
+  }
+
+  num getTotalCancelled(){
+    num total = 0;
+    for(final order in orderList){
+      if(order.orderStatus == OrderStatus.cancelled){
+        total += 1;
+      }
+    }
+    return total;
+  }
+
+
 
 
 

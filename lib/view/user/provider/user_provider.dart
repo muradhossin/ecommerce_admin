@@ -1,6 +1,7 @@
 import 'package:ecommerce_admin/view/user/repository/user_repository.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/utils/helper_functions.dart';
 import '../models/user_model.dart';
 
 class UserProvider extends ChangeNotifier {
@@ -23,5 +24,20 @@ class UserProvider extends ChangeNotifier {
   Future<UserModel> userFindById(String id) {
     debugPrint('-----------------------> userId: $id');
     return UserRepository.getUserById(id);
+  }
+
+  num getTodaysJoinUser(){
+    num total = 0;
+    for(final user in userList){
+      DateTime date = getDateTimeFromTimeStampString(user.userCreationTime!);
+      if(date.day == DateTime.now().day && date.month == DateTime.now().month && date.year == DateTime.now().year){
+        total += 1;
+      }
+    }
+    return total;
+  }
+
+  num getTotalsUser(){
+    return userList.length;
   }
 }

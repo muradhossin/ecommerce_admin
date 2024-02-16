@@ -1,4 +1,5 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/view/order/provider/order_provider.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:ecommerce_admin/view/user/provider/user_provider.dart';
@@ -34,10 +35,12 @@ class _ReportPageState extends State<ReportPage> {
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: [
+
+          // order section
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Orders',
+              'Order Report',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           ),
@@ -75,15 +78,31 @@ class _ReportPageState extends State<ReportPage> {
                       Column(
                         children: [
                           const Text(
-                            'Items Sold',
+                            'Delivered',
                             style: TextStyle(fontSize: 14),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               orderProvider
-                                  .getTotalItemsSoldByDate(DateTime.now().day,
-                                  DateTime.now().month, DateTime.now().year)
+                                  .getTodaysDelivery().toString(),
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      Column(
+                        children: [
+                          const Text(
+                            'Cancelled',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              orderProvider
+                                  .getTodaysCancelled()
                                   .toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
@@ -125,20 +144,118 @@ class _ReportPageState extends State<ReportPage> {
                       Column(
                         children: [
                           const Text(
-                            'Items Sold',
+                            'Delivered',
                             style: TextStyle(fontSize: 14),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               orderProvider
-                                  .getTotalItemsSold()
+                                  .getTotalDelivered()
                                   .toString(),
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
                         ],
                       ),
+
+                      Column(
+                        children: [
+                          const Text(
+                            'Cancelled',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              orderProvider
+                                  .getTotalCancelled()
+                                  .toString(),
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: Dimensions.paddingSmall),
+          // user section
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Customer Report',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+          ),
+          const Divider(
+            color: Colors.black,
+            height: 3,
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  headerSection('Today'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          const Text(
+                            'New Customers',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              userProvider
+                                  .getTodaysJoinUser()
+                                  .toString(),
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  headerSection('All time'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Column(
+                        children: [
+                          const Text(
+                            'Total Customers',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              userProvider
+                                  .getTotalsUser()
+                                  .toString(),
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+
                     ],
                   ),
                 ],
