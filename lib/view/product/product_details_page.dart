@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
+import 'package:ecommerce_admin/core/extensions/context.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
 import 'package:ecommerce_admin/view/product/product_repurchase_page.dart';
 import 'package:ecommerce_admin/core/constants/constants.dart';
@@ -209,6 +210,12 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             subtitle: Text(productModel.longDescription ?? 'N/A'),
           ),
 
+          //average rating
+          ListTile(
+            title: const Text('Average Rating'),
+            trailing: Text(('${productModel.avgRating.toStringAsFixed(2)} (${productModel.ratingCount?.toInt()})'), style: context.textTheme.titleMedium,),
+          ),
+
           Padding(
             padding: const EdgeInsets.all(Dimensions.paddingMedium),
             child: Text(
@@ -216,6 +223,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
+
           FutureBuilder<List<CommentModel>>(
             future:
                 productProvider.getCommentsByProduct(productModel.productId!),
