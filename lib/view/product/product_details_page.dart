@@ -252,18 +252,27 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                                               const Icon(Icons.error),
                                         ),
                                 ),
+
                                 Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    comment.comment,
+                                  padding: const EdgeInsets.only(left: Dimensions.paddingExtraLarge),
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: Text(
+                                          comment.comment,
+                                        ),
+                                      ),
+                                      OutlinedButton(
+                                        onPressed: comment.approved ? null : () {
+                                          _approveComment(comment);
+                                        },
+                                        child: const Text('Approve this comment'),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                OutlinedButton(
-                                  onPressed: comment.approved ? null : () {
-                                    _approveComment(comment);
-                                  },
-                                  child: const Text('Approve this comment'),
-                                ),
+
                               ],
                             ))
                         .toList(),
