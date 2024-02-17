@@ -112,9 +112,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 Provider.of<NotificationProvider>(context).totalUnreadMessage;
             return DashboardItemView(
               model: model,
-              badge: BadgeView(
+              badge: count > 0 ? BadgeView(
                 count: count,
-              ),
+              ) : null,
             );
           }
           return DashboardItemView(
