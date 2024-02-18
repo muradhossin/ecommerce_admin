@@ -1,5 +1,7 @@
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
+import 'package:ecommerce_admin/view/dashboard/dashboard_page.dart';
 import 'package:ecommerce_admin/view/product/models/product_model.dart';
+import 'package:ecommerce_admin/view/product/product_details_page.dart';
 import 'package:ecommerce_admin/view/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -160,7 +162,7 @@ class _ProductRepurchasePageState extends State<ProductRepurchasePage> {
         productModel,
       ).then((value) {
         EasyLoading.dismiss();
-        Navigator.pop(context);
+        Navigator.pushNamedAndRemoveUntil(context, DashboardPage.routeName, (route) => false);
       }).catchError((error){
             EasyLoading.dismiss();
         showMsg(context, "Failed to save");
