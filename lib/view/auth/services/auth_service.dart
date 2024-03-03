@@ -17,4 +17,10 @@ class AuthService {
   static Future<void> logout(){
     return _auth.signOut();
   }
+
+  static Future<bool> getThemeFromSharedPref() async{
+    return AuthRepository.getTheme();
+  }
+
+
 }

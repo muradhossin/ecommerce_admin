@@ -2,6 +2,7 @@ import 'package:ecommerce_admin/core/themes/dark_theme.dart';
 import 'package:ecommerce_admin/core/themes/light_theme.dart';
 import 'package:ecommerce_admin/core/utils/notification_helper.dart';
 import 'package:ecommerce_admin/view/auth/login_page.dart';
+import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
 import 'package:ecommerce_admin/view/product/add_product_page.dart';
 import 'package:ecommerce_admin/view/category/category_page.dart';
@@ -26,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
+import 'core/themes/themes_provider.dart';
 import 'firebase_options.dart';
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -40,6 +42,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  bool isLightTheme = await AuthService.getThemeFromSharedPref();
+  ThemeProvider(isLightTheme);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -53,18 +57,19 @@ void main() async{
 
   runApp(MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider(isLightTheme)),
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => OrderProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => NotificationProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
       ],
-    child: const MyApp(),
-  ));
+    child: Consumer<ThemeProvider>(builder: (context, value, child) =>  MyApp(isLightTheme: value.isLightTheme))));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isLightTheme;
+  const MyApp({super.key, required this.isLightTheme});
 
   // This widget is the root of your application.
   @override
@@ -74,7 +79,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner:false,
       builder: EasyLoading.init(),
       initialRoute: LauncherPage.routeName,
-      themeMode: ThemeMode.system,
+      themeMode: isLightTheme ? ThemeMode.light : ThemeMode.dark,
       theme: LightTheme.theme,
       darkTheme: DarkTheme.theme,
       routes: {

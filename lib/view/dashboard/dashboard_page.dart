@@ -4,6 +4,7 @@ import 'package:ecommerce_admin/core/components/confirmation_dialog.dart';
 import 'package:ecommerce_admin/core/components/custom_appbar.dart';
 import 'package:ecommerce_admin/core/constants/dimensions.dart';
 import 'package:ecommerce_admin/core/extensions/context.dart';
+import 'package:ecommerce_admin/core/themes/themes_provider.dart';
 import 'package:ecommerce_admin/core/utils/notification_helper.dart';
 import 'package:ecommerce_admin/view/auth/services/auth_service.dart';
 import 'package:ecommerce_admin/view/category/provider/category_provider.dart';
@@ -33,6 +34,7 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
+    Provider.of<ThemeProvider>(context, listen: false).getTheme();
     setupInteractedMessage();
     notificationPermission();
     super.initState();
@@ -77,6 +79,15 @@ class _DashboardPageState extends State<DashboardPage> {
       appBar: CustomAppbar(
         title: 'Dashboard',
         actions: [
+
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) =>
+                IconButton(
+                  onPressed: () => themeProvider.toggleTheme(),
+                  icon: themeProvider.isLightTheme ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode),
+                ),
+          ),
+
           IconButton(
             onPressed: () {
              showDialog(
